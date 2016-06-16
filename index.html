@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>D3 Example</title>
+	<script type="text/javascript" src="d3.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="d3style.css">
+</head>
+<body>
+	<script type="text/javascript">
+		var dataset = [25.1, 23, 13.4, 11, 9, 15, 70];
+		var margin = {top: 30, right: 20, bottom: 30, left: 50},
+		    w = 600 - margin.left - margin.right,
+		    h = 270 - margin.top - margin.bottom;
+
+		var x = d3.time.scale().range([0, w]);
+		var y = d3.scale.linear().range([h, 0]);
+		
+		var xAxis = d3.svg.axis().scale(x)
+    		.orient("bottom").ticks(5);
+		var yAxis = d3.svg.axis().scale(y)
+			.orient("left").ticks(5);
+        
+        var mindate = new Date(2016,3,15),
+            maxdate = new Date(2012,4,20);
+            
+
+		var	parseDate = d3.time.format("%d-%b").parse;
+
+		d3.select("body")
+			.append("p")
+			.text("D3 Visualization of Credit Card Purchases");
+		var svg = d3.select("body")
+			.append("svg")
+			.attr("width", w + margin.left + margin.right)
+			.attr("height", h + margin.top + margin.bottom)
+			.append("g")
+			.attr("transform", 
+			      "translate(" + margin.left + "," + margin.top + ")");
+
+		d3.csv("ccard.csv", function(error, data) {
+			data = data.map(function(d){ 
+				d.amount = +d.amount;
+			    d["type"] = d["type"]
+			    d["day"] = parseDate(d["day"])
+			    return d;
+			});
+			
+    		x.domain(d3.extent(data, function(d) { return d.day; }));
+		    y.domain([0, d3.max(data, function(d) { return d.amount; })]);
+
+			svg.selectAll("Circle")
+				.data(data)
+				.enter()
+				.append("circle")
+				.attr("cx", function(d) {
+					return x(d.day);
+				})
+				.attr("cy", function(d) {
+					return y(d.amount);
+				})
+				.attr("r", function(d){
+					return 3;
+				})
+				.attr("fill", function(d){
+					if (d["type"] == "gas") return "blue";
+					if (d["type"] == "shopping") return "red";
+					if (d["type"] == "game") return "green";
+					if (d["type"] == "food") return "yellow";
+					return "black";
+				});	
+
+		    svg.append("g")
+		        .attr("class", "x axis")
+		        .attr("transform", "translate(0," + h + ")")
+		        .call(xAxis);
+
+			svg.append("g")
+				.attr("class", "y axis")
+				.call(yAxis);
+		});
+
+	</script>
+</body>
+</html>
