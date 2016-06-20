@@ -47,7 +47,6 @@
         	colorSTa = d3.rgb(255, 180, 180);
 
     	var totalspend = {gas: 0, shopping: 0, game: 0, food: 0, grocery: 0};
-    	var dailytotal;
 
 		var svg = d3.select("body")
 			.append("svg")
@@ -68,14 +67,16 @@
 				});
 
 				var dailyvalue = d3.nest()
-					.key(function(d) {return d.day})
+					.key(function(d) {return ""+d.day.getMonth()+d.day.getDate();})
 					.rollup(function(v) {
 						return {
 							count: v.length,
 							total: d3.sum(v, function(d) {return d.amount})
 						}
-					});
+					})
+					.map(data);
 				
+				console.log(dailyvalue);
 	    		x.domain(d3.extent(data, function(d) { return d.day; }));
 			    y.domain([0, d3.max(data, function(d) { return d.amount; })]);
 
@@ -218,6 +219,7 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", 3)
 							.attr("cx", function(d) {
 								return x(d.day);
@@ -240,6 +242,8 @@
 					.attr("height", 15)
 					.attr("id", "buttonSBS")
 					.on("click", function(d) {
+	    				xa.domain(d3.extent(data, function(d) { return dailyvalue[""+d.day.getMonth()+d.day.getDate()].total; }));
+	    				svg.select("#xaxis").call(xAxisa);
 						svg.select("#buttonSBD").attr("fill", colorSBDa);
 						svg.select("#buttonSBS").attr("fill", colorSBS);
 						svg.select("#buttonSBT").attr("fill", colorSBTa);
@@ -249,9 +253,10 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", 3)
 							.attr("cx", function(d) {
-								return x(d.day);
+								return xa(dailyvalue[""+d.day.getMonth()+d.day.getDate()].total);
 							})
 							.attr("cy", function(d) {
 								return y(d.amount);
@@ -282,6 +287,7 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", 3)
 							.attr("cx", function(d) {
 								return xa(d.amount);
@@ -315,6 +321,7 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", function(d){
 								return totalspend[d.type]/10
 							})
@@ -350,6 +357,7 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", 3)
 							.attr("cx", function(d) {
 								return x(d.day);
@@ -373,6 +381,8 @@
 					.attr("y", 25)
 					.text("Sort by Daily Sum")
 					.on("click", function(d){
+	    				xa.domain(d3.extent(data, function(d) { return dailyvalue[""+d.day.getMonth()+d.day.getDate()].total; }));
+	    				svg.select("#xaxis").call(xAxisa);
 						svg.select("#buttonSBD").attr("fill", colorSBDa);
 						svg.select("#buttonSBS").attr("fill", colorSBS);
 						svg.select("#buttonSBT").attr("fill", colorSBTa);
@@ -382,9 +392,10 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", 3)
 							.attr("cx", function(d) {
-								return x(d.day);
+								return xa(dailyvalue[""+d.day.getMonth()+d.day.getDate()].total);
 							})
 							.attr("cy", function(d) {
 								return y(d.amount);
@@ -415,6 +426,7 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", 3)
 							.attr("cx", function(d) {
 								return xa(d.amount);
@@ -446,6 +458,7 @@
 						svg.selectAll("Circle")
 							.data(data)
 							.transition()
+							.duration(1000)
 							.attr("r", function(d){
 								return totalspend[d.type]/10
 							})
@@ -470,7 +483,7 @@
 				svg.append("text")
 					.attr("x", 20)
 					.attr("y", 50)
-					.text("gas: " + Math.round(totalspend.gas))
+					.text("gas: $" + Math.round(totalspend.gas))
 					.attr("id", "label1")
 					.attr("font-family", "sans-serif")
 					.attr("font-size", "12px")
@@ -480,7 +493,7 @@
 				svg.append("text")
 					.attr("x", 120)
 					.attr("y", 50)
-					.text("shopping: " + Math.round(totalspend.shopping))
+					.text("shopping: $" + Math.round(totalspend.shopping))
 					.attr("id", "label2")
 					.attr("font-family", "sans-serif")
 					.attr("font-size", "12px")
@@ -490,7 +503,7 @@
 				svg.append("text")
 					.attr("x", 220)
 					.attr("y", 50)
-					.text("game: " + Math.round(totalspend.game))
+					.text("game: $" + Math.round(totalspend.game))
 					.attr("id", "label3")
 					.attr("font-family", "sans-serif")
 					.attr("font-size", "12px")
@@ -500,7 +513,7 @@
 				svg.append("text")
 					.attr("x", 320)
 					.attr("y", 50)
-					.text("food: " + Math.round(totalspend.food))
+					.text("food: $" + Math.round(totalspend.food))
 					.attr("id", "label4")
 					.attr("font-family", "sans-serif")
 					.attr("font-size", "12px")
@@ -510,7 +523,7 @@
 				svg.append("text")
 					.attr("x", 420)
 					.attr("y", 50)
-					.text("grocery: " + Math.round(totalspend.grocery))
+					.text("grocery: $" + Math.round(totalspend.grocery))
 					.attr("id", "label5")
 					.attr("font-family", "sans-serif")
 					.attr("font-size", "12px")
