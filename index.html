@@ -6,6 +6,9 @@
 	<link rel="stylesheet" type="text/css" href="d3style.css">
 </head>
 <body>
+	
+
+	
 	<script type="text/javascript">
 		var	parseDate = d3.time.format("%d-%b").parse;
 
@@ -57,480 +60,501 @@
 			      "translate(" + margin.left + "," + margin.top + ")");
 
 		d3.csv("ccard.csv", function(error, data) {
-				data = data.map(function(d){ 
-					d.amount = +d.amount;
-				    d.type = d.type;
-				    d["day"] = parseDate(d["day"]);
-				    var tempdate = ""+d.day.getMonth()+d.day.getDate();
-				    totalspend[d.type] = totalspend[d.type]+d.amount;
-				    return d;
-				});
 
-				var dailyvalue = d3.nest()
-					.key(function(d) {return ""+d.day.getMonth()+d.day.getDate();})
-					.rollup(function(v) {
-						return {
-							count: v.length,
-							total: d3.sum(v, function(d) {return d.amount})
-						}
-					})
-					.map(data);
-				
-				console.log(dailyvalue);
-	    		x.domain(d3.extent(data, function(d) { return d.day; }));
-			    y.domain([0, d3.max(data, function(d) { return d.amount; })]);
-
-				svg.selectAll("Circle")
-					.data(data)
-					.enter()
-					.append("circle")
-					.attr("cx", function(d) {
-						return x(d.day);
-					})
-					.attr("cy", function(d) {
-						return y(d.amount);
-					})
-					.attr("r", function(d){
-						return 3;
-					})
-					.attr("fill", function(d){
-						if (d["type"] == "gas") return "blue";
-						if (d["type"] == "shopping") return "red";
-						if (d["type"] == "game") return "green";
-						if (d["type"] == "food") return "yellow";
-						return "black";
-					})
-					.attr("id", "datapoints");	
-
-			    svg.append("g")
-			        .attr("class", "x axis")
-			        .attr("transform", "translate(0," + height + ")")
-			        .attr("id", "xaxis")
-			        .call(xAxis);
-
-				svg.append("g")
-					.attr("class", "y axis")
-					.attr("id", "yaxis")
-					.call(yAxis);
-
-				svg.append("text")
-					.attr("x", 50)
-					.attr("y", -20)
-					.text("D3 Visualization of Credit Card Purchases (jimscchen.github.io)")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "14px")
-					.attr("fill", "black")
-					.attr("font-weight", "bold");
-
-				svg.append("text")
-					.attr("x", 40+legendx)
-					.attr("y", 5+legendy)
-					.text("legend")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "10px")
-					.attr("fill", "black")
-					.attr("font-weight", "bold");
-
-				svg.append("circle")
-					.attr("cx", 30+legendx)
-					.attr("cy", 15+legendy)
-					.attr("r", 3)
-					.attr("fill", "blue");
-
-				svg.append("text")
-					.attr("x", 40+legendx)
-					.attr("y", 16+legendy)
-					.text("gas")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "8px")
-					.attr("fill", "black");
-				
-				svg.append("circle")
-					.attr("cx", 30+legendx)
-					.attr("cy", 25+legendy)
-					.attr("r", 3)
-					.attr("fill", "red");
-
-				svg.append("text")
-					.attr("x", 40+legendx)
-					.attr("y", 26+legendy)
-					.text("shopping")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "8px")
-					.attr("fill", "black");
-
-				svg.append("circle")
-					.attr("cx", 30+legendx)
-					.attr("cy", 35+legendy)
-					.attr("r", 3)
-					.attr("fill", "green");
-
-				svg.append("text")
-					.attr("x", 40+legendx)
-					.attr("y", 36+legendy)
-					.text("game")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "8px")
-					.attr("fill", "black");
-
-				svg.append("circle")
-					.attr("cx", 30+legendx)
-					.attr("cy", 45+legendy)
-					.attr("r", 3)
-					.attr("fill", "yellow");
-
-				svg.append("text")
-					.attr("x", 40+legendx)
-					.attr("y", 46+legendy)
-					.text("food")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "8px")
-					.attr("fill", "black");
-
-				svg.append("circle")
-					.attr("cx", 30+legendx)
-					.attr("cy", 55+legendy)
-					.attr("r", 3)
-					.attr("fill", "black");
-
-				svg.append("text")
-					.attr("x", 40+legendx)
-					.attr("y", 56+legendy)
-					.text("grocery")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "8px")
-					.attr("fill", "black");
-
-				svg.append("rect")
-					.attr("x", 15+legendx)
-					.attr("y", -2)
-					.attr("width", 120)
-					.attr("height", 15)
-					.attr("id", "buttonSBD")
-					.on("click", function(d){
-	    				x.domain(d3.extent(data, function(d) { return d.day; }));
-	    				svg.select("#xaxis").call(xAxis);
-						svg.select("#buttonSBD").attr("fill", colorSBD);
-						svg.select("#buttonSBS").attr("fill", colorSBSa);
-						svg.select("#buttonSBT").attr("fill", colorSBTa);
-						svg.select("#buttonST").attr("fill", colorSTa);
-						svg.select("#xaxis").style("opacity", 1);
-						svg.select("#yaxis").style("opacity", 1);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", 3)
-							.attr("cx", function(d) {
-								return x(d.day);
-							})
-							.attr("cy", function(d) {
-								return y(d.amount);
-							});
-						svg.select("#label1").style("visibility", "hidden");
-						svg.select("#label2").style("visibility", "hidden");
-						svg.select("#label3").style("visibility", "hidden");
-						svg.select("#label4").style("visibility", "hidden");
-						svg.select("#label5").style("visibility", "hidden");
-					})
-					.attr("fill", colorSBD);
-
-				svg.append("rect")
-					.attr("x", 15+legendx)
-					.attr("y", 13)
-					.attr("width", 120)
-					.attr("height", 15)
-					.attr("id", "buttonSBS")
-					.on("click", function(d) {
-	    				xa.domain(d3.extent(data, function(d) { return dailyvalue[""+d.day.getMonth()+d.day.getDate()].total; }));
-	    				svg.select("#xaxis").call(xAxisa);
-						svg.select("#buttonSBD").attr("fill", colorSBDa);
-						svg.select("#buttonSBS").attr("fill", colorSBS);
-						svg.select("#buttonSBT").attr("fill", colorSBTa);
-						svg.select("#buttonST").attr("fill", colorSTa);
-						svg.select("#xaxis").style("opacity", 1);
-						svg.select("#yaxis").style("opacity", 1);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", 3)
-							.attr("cx", function(d) {
-								return xa(dailyvalue[""+d.day.getMonth()+d.day.getDate()].total);
-							})
-							.attr("cy", function(d) {
-								return y(d.amount);
-							});
-						svg.select("#label1").style("visibility", "hidden");
-						svg.select("#label2").style("visibility", "hidden");
-						svg.select("#label3").style("visibility", "hidden");
-						svg.select("#label4").style("visibility", "hidden");
-						svg.select("#label5").style("visibility", "hidden");
-					})
-					.attr("fill", colorSBSa);
-
-				svg.append("rect")
-					.attr("x", 15+legendx)
-					.attr("y", 28)
-					.attr("width", 120)
-					.attr("height", 15)
-					.attr("id", "buttonSBT")
-					.on("click", function(d) {
-	    				xa.domain(d3.extent(data, function(d) { return d.amount; }));
-	    				svg.select("#xaxis").call(xAxisa);
-						svg.select("#buttonSBD").attr("fill", colorSBDa);
-						svg.select("#buttonSBS").attr("fill", colorSBSa);
-						svg.select("#buttonSBT").attr("fill", colorSBT);
-						svg.select("#buttonST").attr("fill", colorSTa);
-						svg.select("#xaxis").style("opacity", 1);
-						svg.select("#yaxis").style("opacity", 1);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", 3)
-							.attr("cx", function(d) {
-								return xa(d.amount);
-							})
-							.attr("cy", function(d) {
-								return y(d.amount);
-							});
-						svg.select("#label1").style("visibility", "hidden");
-						svg.select("#label2").style("visibility", "hidden");
-						svg.select("#label3").style("visibility", "hidden");
-						svg.select("#label4").style("visibility", "hidden");
-						svg.select("#label5").style("visibility", "hidden");
-
-					})
-					.attr("fill", colorSBTa);
-
-				svg.append("rect")
-					.attr("x", 15+legendx)
-					.attr("y", 43)
-					.attr("width", 120)
-					.attr("height", 15)
-					.attr("id", "buttonST")
-					.on("click", function(d) {
-						svg.select("#buttonSBD").attr("fill", colorSBDa);
-						svg.select("#buttonSBS").attr("fill", colorSBSa);
-						svg.select("#buttonSBT").attr("fill", colorSBTa);
-						svg.select("#buttonST").attr("fill", colorST);
-						svg.select("#xaxis").style("opacity", 0);
-						svg.select("#yaxis").style("opacity", 0);
-						svg.select("#datapoints")
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", function(d){
-								return totalspend[d.type]/10
-							})
-							.attr("cx", function(d){
-								if (d.type=="gas") return 50
-								if (d.type=="shopping") return 150
-								if (d.type=="game") return 250
-								if (d.type=="food") return 350
-								return 450
-							})
-							.attr("cy", 100);
-						svg.select("#label1").style("visibility", "visible");
-						svg.select("#label2").style("visibility", "visible");
-						svg.select("#label3").style("visibility", "visible");
-						svg.select("#label4").style("visibility", "visible");
-						svg.select("#label5").style("visibility", "visible");
-					})
-					.attr("fill", colorSTa);
-
-				svg.append("text")
-					.attr("x", 20+legendx)
-					.attr("y", 10)
-					.text("Sort by Date")
-					.on("click", function(d){
-	    				x.domain(d3.extent(data, function(d) { return d.day; }));
-	    				svg.select("#xaxis").call(xAxis);
-						svg.select("#buttonSBD").attr("fill", colorSBD);
-						svg.select("#buttonSBS").attr("fill", colorSBSa);
-						svg.select("#buttonSBT").attr("fill", colorSBTa);
-						svg.select("#buttonST").attr("fill", colorSTa);
-						svg.select("#xaxis").style("opacity", 1);
-						svg.select("#yaxis").style("opacity", 1);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", 3)
-							.attr("cx", function(d) {
-								return x(d.day);
-							})
-							.attr("cy", function(d) {
-								return y(d.amount);
-							});
-						svg.select("#label1").style("visibility", "hidden");
-						svg.select("#label2").style("visibility", "hidden");
-						svg.select("#label3").style("visibility", "hidden");
-						svg.select("#label4").style("visibility", "hidden");
-						svg.select("#label5").style("visibility", "hidden");
-					})
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black");
-
-
-				svg.append("text")
-					.attr("x", 20+legendx)
-					.attr("y", 25)
-					.text("Sort by Daily Sum")
-					.on("click", function(d){
-	    				xa.domain(d3.extent(data, function(d) { return dailyvalue[""+d.day.getMonth()+d.day.getDate()].total; }));
-	    				svg.select("#xaxis").call(xAxisa);
-						svg.select("#buttonSBD").attr("fill", colorSBDa);
-						svg.select("#buttonSBS").attr("fill", colorSBS);
-						svg.select("#buttonSBT").attr("fill", colorSBTa);
-						svg.select("#buttonST").attr("fill", colorSTa);
-						svg.select("#xaxis").style("opacity", 1);
-						svg.select("#yaxis").style("opacity", 1);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", 3)
-							.attr("cx", function(d) {
-								return xa(dailyvalue[""+d.day.getMonth()+d.day.getDate()].total);
-							})
-							.attr("cy", function(d) {
-								return y(d.amount);
-							});
-						svg.select("#label1").style("visibility", "hidden");
-						svg.select("#label2").style("visibility", "hidden");
-						svg.select("#label3").style("visibility", "hidden");
-						svg.select("#label4").style("visibility", "hidden");
-						svg.select("#label5").style("visibility", "hidden");
-					})
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black");
-
-				svg.append("text")
-					.attr("x", 20+legendx)
-					.attr("y", 40)
-					.text("Sort by Transaction")
-					.on("click", function(d){
-	    				xa.domain(d3.extent(data, function(d) { return d.amount; }));
-	    				svg.select("#xaxis").call(xAxisa);
-						svg.select("#buttonSBD").attr("fill", colorSBDa);
-						svg.select("#buttonSBS").attr("fill", colorSBSa);
-						svg.select("#buttonSBT").attr("fill", colorSBT);
-						svg.select("#buttonST").attr("fill", colorSTa);
-						svg.select("#xaxis").style("opacity", 1);
-						svg.select("#yaxis").style("opacity", 1);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", 3)
-							.attr("cx", function(d) {
-								return xa(d.amount);
-							})
-							.attr("cy", function(d) {
-								return y(d.amount);
-							});
-						svg.select("#label1").style("visibility", "hidden");
-						svg.select("#label2").style("visibility", "hidden");
-						svg.select("#label3").style("visibility", "hidden");
-						svg.select("#label4").style("visibility", "hidden");
-						svg.select("#label5").style("visibility", "hidden");
-					})
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black");
-
-				svg.append("text")
-					.attr("x", 20+legendx)
-					.attr("y", 55)
-					.text("Show Total")
-					.on("click", function(d) {
-						svg.select("#buttonSBD").attr("fill", colorSBDa);
-						svg.select("#buttonSBS").attr("fill", colorSBSa);
-						svg.select("#buttonSBT").attr("fill", colorSBTa);
-						svg.select("#buttonST").attr("fill", colorST);
-						svg.select("#xaxis").style("opacity", 0);
-						svg.select("#yaxis").style("opacity", 0);
-						svg.selectAll("Circle")
-							.data(data)
-							.transition()
-							.duration(1000)
-							.attr("r", function(d){
-								return totalspend[d.type]/10
-							})
-							.attr("cx", function(d){
-								if (d.type=="gas") return 50
-								if (d.type=="shopping") return 150
-								if (d.type=="game") return 250
-								if (d.type=="food") return 350
-								return 450
-							})
-							.attr("cy", 100);
-						svg.select("#label1").style("visibility", "visible");
-						svg.select("#label2").style("visibility", "visible");
-						svg.select("#label3").style("visibility", "visible");
-						svg.select("#label4").style("visibility", "visible");
-						svg.select("#label5").style("visibility", "visible");
-					})
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black");
-
-				svg.append("text")
-					.attr("x", 20)
-					.attr("y", 50)
-					.text("gas: $" + Math.round(totalspend.gas))
-					.attr("id", "label1")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black")
-					.style("visibility", "hidden");
-
-				svg.append("text")
-					.attr("x", 120)
-					.attr("y", 50)
-					.text("shopping: $" + Math.round(totalspend.shopping))
-					.attr("id", "label2")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black")
-					.style("visibility", "hidden");
-
-				svg.append("text")
-					.attr("x", 220)
-					.attr("y", 50)
-					.text("game: $" + Math.round(totalspend.game))
-					.attr("id", "label3")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black")
-					.style("visibility", "hidden");
-
-				svg.append("text")
-					.attr("x", 320)
-					.attr("y", 50)
-					.text("food: $" + Math.round(totalspend.food))
-					.attr("id", "label4")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black")
-					.style("visibility", "hidden");
-
-				svg.append("text")
-					.attr("x", 420)
-					.attr("y", 50)
-					.text("grocery: $" + Math.round(totalspend.grocery))
-					.attr("id", "label5")
-					.attr("font-family", "sans-serif")
-					.attr("font-size", "12px")
-					.attr("fill", "black")
-					.style("visibility", "hidden");
+			data = data.map(function(d){ 
+				d.amount = +d.amount;
+			    d.type = d.type;
+			    d["day"] = parseDate(d["day"]);
+			    var tempdate = ""+d.day.getMonth()+d.day.getDate();
+			    totalspend[d.type] = totalspend[d.type]+d.amount;
+			    return d;
 			});
 
+			var dailyvalue = d3.nest()
+				.key(function(d) {return ""+d.day.getMonth()+d.day.getDate();})
+				.rollup(function(v) {
+					return {
+						count: v.length,
+						total: d3.sum(v, function(d) {return d.amount})
+					}
+				})
+				.map(data);
+			
+			console.log(dailyvalue);
+    		x.domain(d3.extent(data, function(d) { return d.day; }));
+		    y.domain([0, d3.max(data, function(d) { return d.amount; })]);
+
+			svg.selectAll("Circle")
+				.data(data)
+				.enter()
+				.append("circle")
+				.attr("cx", function(d) {
+					return x(d.day);
+				})
+				.attr("cy", function(d) {
+					return y(d.amount);
+				})
+				.attr("r", function(d){
+					return 3;
+				})
+				.attr("fill", function(d){
+					if (d["type"] == "gas") return "blue";
+					if (d["type"] == "shopping") return "red";
+					if (d["type"] == "game") return "green";
+					if (d["type"] == "food") return "yellow";
+					return "black";
+				})
+				.attr("id", "datapoints");	
+
+		    svg.append("g")
+		        .attr("class", "x axis")
+		        .attr("transform", "translate(0," + height + ")")
+		        .attr("id", "xaxis")
+		        .call(xAxis);
+
+			svg.append("g")
+				.attr("class", "y axis")
+				.attr("id", "yaxis")
+				.call(yAxis);
+
+			svg.append("text")
+				.attr("x", 50)
+				.attr("y", -20)
+				.text("D3 Visualization of Credit Card Purchases (jimscchen.github.io)")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "14px")
+				.attr("fill", "black")
+				.attr("font-weight", "bold");
+
+			svg.append("text")
+				.attr("x", 40+legendx)
+				.attr("y", 5+legendy)
+				.text("legend")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "10px")
+				.attr("fill", "black")
+				.attr("font-weight", "bold");
+
+			svg.append("circle")
+				.attr("cx", 30+legendx)
+				.attr("cy", 15+legendy)
+				.attr("r", 3)
+				.attr("fill", "blue");
+
+			svg.append("text")
+				.attr("x", 40+legendx)
+				.attr("y", 16+legendy)
+				.text("gas")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "8px")
+				.attr("fill", "black");
+			
+			svg.append("circle")
+				.attr("cx", 30+legendx)
+				.attr("cy", 25+legendy)
+				.attr("r", 3)
+				.attr("fill", "red");
+
+			svg.append("text")
+				.attr("x", 40+legendx)
+				.attr("y", 26+legendy)
+				.text("shopping")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "8px")
+				.attr("fill", "black");
+
+			svg.append("circle")
+				.attr("cx", 30+legendx)
+				.attr("cy", 35+legendy)
+				.attr("r", 3)
+				.attr("fill", "green");
+
+			svg.append("text")
+				.attr("x", 40+legendx)
+				.attr("y", 36+legendy)
+				.text("game")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "8px")
+				.attr("fill", "black");
+
+			svg.append("circle")
+				.attr("cx", 30+legendx)
+				.attr("cy", 45+legendy)
+				.attr("r", 3)
+				.attr("fill", "yellow");
+
+			svg.append("text")
+				.attr("x", 40+legendx)
+				.attr("y", 46+legendy)
+				.text("food")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "8px")
+				.attr("fill", "black");
+
+			svg.append("circle")
+				.attr("cx", 30+legendx)
+				.attr("cy", 55+legendy)
+				.attr("r", 3)
+				.attr("fill", "black");
+
+			svg.append("text")
+				.attr("x", 40+legendx)
+				.attr("y", 56+legendy)
+				.text("grocery")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "8px")
+				.attr("fill", "black");
+
+			svg.append("rect")
+				.attr("x", 15+legendx)
+				.attr("y", -2)
+				.attr("width", 120)
+				.attr("height", 15)
+				.attr("id", "buttonSBD")
+				.on("click", function(d){
+    				x.domain(d3.extent(data, function(d) { return d.day; }));
+    				svg.select("#xaxis").call(xAxis);
+					svg.select("#buttonSBD").attr("fill", colorSBD);
+					svg.select("#buttonSBS").attr("fill", colorSBSa);
+					svg.select("#buttonSBT").attr("fill", colorSBTa);
+					svg.select("#buttonST").attr("fill", colorSTa);
+					svg.select("#xaxis").style("opacity", 1);
+					svg.select("#yaxis").style("opacity", 1);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", 3)
+						.attr("cx", function(d) {
+							return x(d.day);
+						})
+						.attr("cy", function(d) {
+							return y(d.amount);
+						});
+					svg.select("#label1").style("visibility", "hidden");
+					svg.select("#label2").style("visibility", "hidden");
+					svg.select("#label3").style("visibility", "hidden");
+					svg.select("#label4").style("visibility", "hidden");
+					svg.select("#label5").style("visibility", "hidden");
+				})
+				.attr("fill", colorSBD);
+
+			svg.append("rect")
+				.attr("x", 15+legendx)
+				.attr("y", 13)
+				.attr("width", 120)
+				.attr("height", 15)
+				.attr("id", "buttonSBS")
+				.on("click", function(d) {
+    				xa.domain(d3.extent(data, function(d) { return dailyvalue[""+d.day.getMonth()+d.day.getDate()].total; }));
+    				svg.select("#xaxis").call(xAxisa);
+					svg.select("#buttonSBD").attr("fill", colorSBDa);
+					svg.select("#buttonSBS").attr("fill", colorSBS);
+					svg.select("#buttonSBT").attr("fill", colorSBTa);
+					svg.select("#buttonST").attr("fill", colorSTa);
+					svg.select("#xaxis").style("opacity", 1);
+					svg.select("#yaxis").style("opacity", 1);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", 3)
+						.attr("cx", function(d) {
+							return xa(dailyvalue[""+d.day.getMonth()+d.day.getDate()].total);
+						})
+						.attr("cy", function(d) {
+							return y(d.amount);
+						});
+					svg.select("#label1").style("visibility", "hidden");
+					svg.select("#label2").style("visibility", "hidden");
+					svg.select("#label3").style("visibility", "hidden");
+					svg.select("#label4").style("visibility", "hidden");
+					svg.select("#label5").style("visibility", "hidden");
+				})
+				.attr("fill", colorSBSa);
+
+			svg.append("rect")
+				.attr("x", 15+legendx)
+				.attr("y", 28)
+				.attr("width", 120)
+				.attr("height", 15)
+				.attr("id", "buttonSBT")
+				.on("click", function(d) {
+    				xa.domain(d3.extent(data, function(d) { return d.amount; }));
+    				svg.select("#xaxis").call(xAxisa);
+					svg.select("#buttonSBD").attr("fill", colorSBDa);
+					svg.select("#buttonSBS").attr("fill", colorSBSa);
+					svg.select("#buttonSBT").attr("fill", colorSBT);
+					svg.select("#buttonST").attr("fill", colorSTa);
+					svg.select("#xaxis").style("opacity", 1);
+					svg.select("#yaxis").style("opacity", 1);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", 3)
+						.attr("cx", function(d) {
+							return xa(d.amount);
+						})
+						.attr("cy", function(d) {
+							return y(d.amount);
+						});
+					svg.select("#label1").style("visibility", "hidden");
+					svg.select("#label2").style("visibility", "hidden");
+					svg.select("#label3").style("visibility", "hidden");
+					svg.select("#label4").style("visibility", "hidden");
+					svg.select("#label5").style("visibility", "hidden");
+
+				})
+				.attr("fill", colorSBTa);
+
+			svg.append("rect")
+				.attr("x", 15+legendx)
+				.attr("y", 43)
+				.attr("width", 120)
+				.attr("height", 15)
+				.attr("id", "buttonST")
+				.on("click", function(d) {
+					svg.select("#buttonSBD").attr("fill", colorSBDa);
+					svg.select("#buttonSBS").attr("fill", colorSBSa);
+					svg.select("#buttonSBT").attr("fill", colorSBTa);
+					svg.select("#buttonST").attr("fill", colorST);
+					svg.select("#xaxis").style("opacity", 0);
+					svg.select("#yaxis").style("opacity", 0);
+					svg.select("#datapoints")
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", function(d){
+							return totalspend[d.type]/10
+						})
+						.attr("cx", function(d){
+							if (d.type=="gas") return 50
+							if (d.type=="shopping") return 150
+							if (d.type=="game") return 250
+							if (d.type=="food") return 350
+							return 450
+						})
+						.attr("cy", 100);
+					svg.select("#label1").style("visibility", "visible");
+					svg.select("#label2").style("visibility", "visible");
+					svg.select("#label3").style("visibility", "visible");
+					svg.select("#label4").style("visibility", "visible");
+					svg.select("#label5").style("visibility", "visible");
+				})
+				.attr("fill", colorSTa);
+
+			svg.append("text")
+				.attr("x", 20+legendx)
+				.attr("y", 10)
+				.text("Sort by Date")
+				.on("click", function(d){
+    				x.domain(d3.extent(data, function(d) { return d.day; }));
+    				svg.select("#xaxis").call(xAxis);
+					svg.select("#buttonSBD").attr("fill", colorSBD);
+					svg.select("#buttonSBS").attr("fill", colorSBSa);
+					svg.select("#buttonSBT").attr("fill", colorSBTa);
+					svg.select("#buttonST").attr("fill", colorSTa);
+					svg.select("#xaxis").style("opacity", 1);
+					svg.select("#yaxis").style("opacity", 1);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", 3)
+						.attr("cx", function(d) {
+							return x(d.day);
+						})
+						.attr("cy", function(d) {
+							return y(d.amount);
+						});
+					svg.select("#label1").style("visibility", "hidden");
+					svg.select("#label2").style("visibility", "hidden");
+					svg.select("#label3").style("visibility", "hidden");
+					svg.select("#label4").style("visibility", "hidden");
+					svg.select("#label5").style("visibility", "hidden");
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black");
+
+
+			svg.append("text")
+				.attr("x", 20+legendx)
+				.attr("y", 25)
+				.text("Sort by Daily Sum")
+				.on("click", function(d){
+    				xa.domain(d3.extent(data, function(d) { return dailyvalue[""+d.day.getMonth()+d.day.getDate()].total; }));
+    				svg.select("#xaxis").call(xAxisa);
+					svg.select("#buttonSBD").attr("fill", colorSBDa);
+					svg.select("#buttonSBS").attr("fill", colorSBS);
+					svg.select("#buttonSBT").attr("fill", colorSBTa);
+					svg.select("#buttonST").attr("fill", colorSTa);
+					svg.select("#xaxis").style("opacity", 1);
+					svg.select("#yaxis").style("opacity", 1);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", 3)
+						.attr("cx", function(d) {
+							return xa(dailyvalue[""+d.day.getMonth()+d.day.getDate()].total);
+						})
+						.attr("cy", function(d) {
+							return y(d.amount);
+						});
+					svg.select("#label1").style("visibility", "hidden");
+					svg.select("#label2").style("visibility", "hidden");
+					svg.select("#label3").style("visibility", "hidden");
+					svg.select("#label4").style("visibility", "hidden");
+					svg.select("#label5").style("visibility", "hidden");
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black");
+
+			svg.append("text")
+				.attr("x", 20+legendx)
+				.attr("y", 40)
+				.text("Sort by Transaction")
+				.on("click", function(d){
+    				xa.domain(d3.extent(data, function(d) { return d.amount; }));
+    				svg.select("#xaxis").call(xAxisa);
+					svg.select("#buttonSBD").attr("fill", colorSBDa);
+					svg.select("#buttonSBS").attr("fill", colorSBSa);
+					svg.select("#buttonSBT").attr("fill", colorSBT);
+					svg.select("#buttonST").attr("fill", colorSTa);
+					svg.select("#xaxis").style("opacity", 1);
+					svg.select("#yaxis").style("opacity", 1);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", 3)
+						.attr("cx", function(d) {
+							return xa(d.amount);
+						})
+						.attr("cy", function(d) {
+							return y(d.amount);
+						});
+					svg.select("#label1").style("visibility", "hidden");
+					svg.select("#label2").style("visibility", "hidden");
+					svg.select("#label3").style("visibility", "hidden");
+					svg.select("#label4").style("visibility", "hidden");
+					svg.select("#label5").style("visibility", "hidden");
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black");
+
+			svg.append("text")
+				.attr("x", 20+legendx)
+				.attr("y", 55)
+				.text("Show Total")
+				.on("click", function(d) {
+					svg.select("#buttonSBD").attr("fill", colorSBDa);
+					svg.select("#buttonSBS").attr("fill", colorSBSa);
+					svg.select("#buttonSBT").attr("fill", colorSBTa);
+					svg.select("#buttonST").attr("fill", colorST);
+					svg.select("#xaxis").style("opacity", 0);
+					svg.select("#yaxis").style("opacity", 0);
+					svg.selectAll("Circle")
+						.data(data)
+						.transition()
+						.duration(1000)
+						.attr("r", function(d){
+							return totalspend[d.type]/10
+						})
+						.attr("cx", function(d){
+							if (d.type=="gas") return 50
+							if (d.type=="shopping") return 150
+							if (d.type=="game") return 250
+							if (d.type=="food") return 350
+							return 450
+						})
+						.attr("cy", 100);
+					svg.select("#label1").style("visibility", "visible");
+					svg.select("#label2").style("visibility", "visible");
+					svg.select("#label3").style("visibility", "visible");
+					svg.select("#label4").style("visibility", "visible");
+					svg.select("#label5").style("visibility", "visible");
+				})
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black");
+
+			svg.append("text")
+				.attr("x", 20)
+				.attr("y", 50)
+				.text("gas: $" + Math.round(totalspend.gas))
+				.attr("id", "label1")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black")
+				.style("visibility", "hidden");
+
+			svg.append("text")
+				.attr("x", 120)
+				.attr("y", 50)
+				.text("shopping: $" + Math.round(totalspend.shopping))
+				.attr("id", "label2")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black")
+				.style("visibility", "hidden");
+
+			svg.append("text")
+				.attr("x", 220)
+				.attr("y", 50)
+				.text("game: $" + Math.round(totalspend.game))
+				.attr("id", "label3")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black")
+				.style("visibility", "hidden");
+
+			svg.append("text")
+				.attr("x", 320)
+				.attr("y", 50)
+				.text("food: $" + Math.round(totalspend.food))
+				.attr("id", "label4")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black")
+				.style("visibility", "hidden");
+
+			svg.append("text")
+				.attr("x", 420)
+				.attr("y", 50)
+				.text("grocery: $" + Math.round(totalspend.grocery))
+				.attr("id", "label5")
+				.attr("font-family", "sans-serif")
+				.attr("font-size", "12px")
+				.attr("fill", "black")
+				.style("visibility", "hidden");
+
+			d3.select("#minFilter")
+				.on("input", function(){
+					var minVal = +this.value;
+					d3.select("#minFilterValue").text(minVal);
+					d3.select("#minFilter").property("value", minVal);
+					svg.selectAll("circle")
+						.data(data)
+						.style("visibility", function(d) {
+							if (d.amount < minVal) return "hidden"
+							return "visible"
+						})
+				});
+		});
+
 	</script>
+
+	<input type="range" min="0" max="150" id="minFilter" value="0"
+	orient="vertical" style="width: 20px; height: 250px;
+	-webkit-appearance: slider-vertical;">
+	<label for="minFilter" style="display: inline-block; width: 100px; text-align: top">
+	Filter = $<span id="minFilterValue">0</span>
+	</label>
 </body>
 </html>
