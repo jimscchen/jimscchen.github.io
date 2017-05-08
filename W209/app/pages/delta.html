@@ -1,0 +1,43 @@
+<meta charset="utf8">
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="greekplot.css">
+<div class="well" id="content">
+    <article>
+        <header>
+            <h2>Delta</h2>
+        </header>
+        <section>
+            <p>Delta (∆) represents how much the option's price changes when the underlying's price increases by $1. It always falls between -1 and 1, and it will be positive for call options and negative for put options. The reason for this should be intuitive if you examine the payoff diagrams for call and put options.</p>
+            <p>For call options, delta approaches 1 as the underlying's price goes to infinity, and it approaches 0 as the underlying's price approaches 0. For put options, it approaches -1 as the underlying's price goes to 0 and it approaches 0 as the underlying's price approaches infinity</p>
+        </section>
+        <figure>
+            <figcaption>Call option price curve</figcaption>
+            <div id="call-price" class="plot"/>
+        </figure>
+        <br>
+        <figure>
+            <figcaption>Call option delta curve</figcaption>
+            <div id="call-delta" class="plot"/>
+        </figure>
+        <br>
+        <figure>
+            <figcaption>Put option price curve</figcaption>
+            <div id="put-price" class="plot"/>
+        </figure>
+        <br>
+        <figure>
+            <figcaption>Put option delta curve</figcaption>
+            <div id="put-delta" class="plot"/>
+        </figure>
+    </article>
+    <script src="../lib/underscore.js"></script>
+    <script src="../lib/d3/d3.js"></script>
+    <script src="../lib/jetpack.js"></script>
+    <script src="../src/linechart.js"></script>
+    <script src="../lib/greeks/black-scholes.js"></script>
+    <script src="../lib/greeks/greeks.js"></script>
+    <script src="../src/greekplot.js"></script>
+    <script src="delta.js"></script>
+</div>
+

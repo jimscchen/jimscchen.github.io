@@ -1,0 +1,84 @@
+table {
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+thead {
+	background-color: gainsboro;
+	border-width: 1px;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: whitesmoke;
+}
+
+th, td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+a {
+  color: blue;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+.section {
+  margin: 20px;
+  float: left;
+}
+
+.col-numeric {
+	text-align: center;
+}
+
+.dialog {
+  /*
+  float: right;
+  position: relative;
+  right: 50%;
+  */
+
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 5px;
+
+  background-color: white;
+
+  padding: 10px;
+
+  visibility: hidden;
+}
+
+.dialog input {
+  text-align: right;
+}
+
+.plot {
+    margin: 20px;
+    float: left;
+    background-color: gainsboro;	/* a very light gray */
+    height: 200px;
+    width: 400px;
+}
+
+/* Style the axes */
+.axis path,
+.axis line {
+    fill: none;
+    stroke: darkgray;
+    shape-rendering: crispEdges;
+    stroke-width: 1.5px;
+}
+.axis > .tick > text {
+    font-family: sans-serif;
+    font-size: small;
+}
+
+.line {
+    fill: none;
+    stroke-width: 1.5px;
+}

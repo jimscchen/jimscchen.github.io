@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf8">
+    <title>Test page for p/l game</title>
+    <link rel="stylesheet" type="text/css" href="table-test.css">
+    <script type="text/javascript" src="../lib/d3/d3.js" defer></script>
+    <script type="text/javascript" src="../lib/jetpack.js" defer></script>
+    <script type="text/javascript" src="../src/table.js" defer></script>
+    <script type="text/javascript" src="../src/linechart.js" defer></script>
+    <script type="text/javascript" src="../lib/greeks/black-scholes.js"></script>
+    <script type="text/javascript" src="../lib/greeks/greeks.js"></script>
+    <script type="text/javascript" src="../src/positionValuePlot.js" defer></script>
+    <script type="text/javascript" src="table-test.js" defer></script>
+</head>
+<body>
+
+<div id="title">
+  <h1>Options buying: the video game</h1>
+</div>
+
+<div class='section'>
+  <h2>Market</h2>
+  <div id="market" class='table'></div>
+</div>
+
+<div class='section'>
+  <h2>Portfolio</h2>
+  <div id="portfolio" class='table'></div>
+</div>
+
+<div class='section'>
+  <h2>Theoretical profit/loss by stock price</h2>
+  <div id="priceplot" class='plot'></div>
+</div>
+
+<div id="buy-dialog" class='dialog'>
+  <header>Quantity to buy:</header>
+  <input id='buy-quantity' type='number'>
+  <button onclick="closeBuy()">Cancel</button>
+  <button onclick="completeBuy()">OK</button>  
+</div>
+
+<div id="sell-dialog" class='dialog'>
+  <header>Quantity to sell:</header>
+  <input id='sell-quantity' type='number'>
+  <button onclick="closeSell()">Cancel</button>
+  <button onclick="completeSell()">OK</button>  
+</div>
+
+</body>
+</html>

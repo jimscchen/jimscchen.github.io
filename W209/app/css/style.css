@@ -1,0 +1,55 @@
+@import url('linechart.css');
+
+.x.axis line,
+.x.axis path {
+  fill: none;
+  stroke: #000;
+}
+
+.y.axis line,
+.y.axis path {
+  fill: none;
+  stroke: #000;
+}
+
+figure.wrap {
+  float:right;
+}
+
+figure {
+  display:table;
+}
+
+a.btn {
+    -webkit-appearance: button;
+    cursor: pointer;
+    align-self: center;
+    color: black;
+}
+
+td a.btn {
+  padding-left: 3px;
+  padding-right: 3px;
+  padding-top: 1px;
+  padding-bottom: 1px;
+}
+
+.sliders label,input {
+  display: inline-block;
+  width:140px;
+  text-align: right;
+}
+
+a.dim {
+  color: gray;
+}
+
+.figure {
+  float: right;
+  margin-top: 50px;
+  margin-left: 10px;
+}
+
+.figure p {
+  font-weight: bold;
+}

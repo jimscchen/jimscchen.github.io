@@ -1,0 +1,275 @@
+<meta charset="utf-8">
+<script src="../lib/d3/d3.js"></script>
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<div class="well" id="content">
+	<div class="figure well">
+		<p>Example: Profit at expiration for a $100 put or call option</p>
+		<svg width="400" height="300" id="explain"></svg>
+		<br>
+		<div style="text-align: center">
+		<input type="range" min="0" max="200" id="stockPriceLever" 
+			value="100" orient="horizontal" 
+			style="width: 400px; height: 20px; -webkit-appearance: slider-horizontal; ">
+		</div>
+		<label for="stockPrice" style="display: inline-block; width: 150px; text-align: top">
+		Stock Price = $<span id="stockPrice">0</span></label>
+		<label for="payoff" style="display: inline-block; width: 150px; text-align: top">
+		Profit = $<span id="payoff">-10</span></label>
+	</div>
+
+	<section>
+		<h2>Exercising call options</h2>
+		<ul>
+			<li>
+				You <b>only</b> exercise a call option when the price of the stock is <b>higher</b> than the strike price.
+			</li>
+			<li>
+				A call option is a contract giving you the option to buy the stock at the strike price. This is only a good 
+				idea if you can buy the stock for less than it's worth.
+			</li>
+			<li>
+				If you own the $100 Apple put, and the price climbs to $110, you can exercise your option to buy the stock for
+				$100, and then immediately sell it for $110 and pocket $10 per share. 
+			</li>
+			<li>
+				When the stick price is below your option's strikem you can still exercise your calls, but you will lose money.
+			</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Exercising put options</h2>
+		<ul>
+			<li>
+				This is the exact opposite of a call option: you want to exercise a put option when the price of the stock is 
+				<b>lower</b> than the strike price.
+			</li>
+			<li>
+				Recall, a put option is a contract giving you the option to sell the stock at the strike price, and this is only
+				a good idea if you can sell it for more than it's worth.
+			</li>
+			<li>
+				If you own the $100 Apple put, and the price drops to $90, you can buy the stock for $90, then exercise the put
+				to sell the same stock for $100, pocketing $10 per share. 
+			</li>
+		</ul>
+	</section>
+
+	<section>
+		<h2>Profit and loss</h2>
+		<p>
+			Whenever you stand to profit by exercising an option, it is said to be <em>in the money</em>. If you don't stand
+			to make any profit by exercising it, it is said to be <em>out of the money</em>.
+		</p>
+		<p>
+			Just because an option is in the money doesn't mean you profited by owning it in the first place. If you pay $5 for
+			an option, and make $1 by exercising it, you've really lost $4 in the overall transaction.
+		</p>
+	</section>
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+	var margin = {top: 10, right: 10, bottom: 10, left: 30},
+    width = 400 - margin.left - margin.right,
+    height = 300 - margin.top - margin.bottom;
+
+    var optionType = "call"
+	var colorCalla = d3.rgb(200,200,200);
+		colorCalld = d3.rgb(167, 200, 255);
+		colorPuta = d3.rgb(12, 120, 67);
+		colorPutd = d3.rgb(112, 255, 167);
+		
+	var svg = d3.select("#explain");
+	var sprice = 100;
+
+	x = d3.scale.linear().range([margin.left,width]);
+	y = d3.scale.linear().range([height, margin.top]);
+
+    x.domain([0, 200]);
+    y.domain([-25, 100]);
+
+	var optionValue = function(type, sprice) {
+		if (type==="call") return Math.max(sprice-110, -10);
+		return Math.max(-10, 90-sprice);
+	}
+
+    //initiate axis
+	var xAxis = d3.svg.axis().scale(x)
+		.orient("bottom").ticks(5);
+		yAxis = d3.svg.axis().scale(y)
+		.orient("left").ticks(5);
+
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .attr("id", "xaxis")
+        .call(xAxis);
+
+	svg.append("g")
+		.attr("class", "y axis")
+        .attr("transform", "translate("+margin.left+",0)")
+		.attr("id", "yaxis")
+		.call(yAxis);
+
+
+	var lineData = [ { "x": x(1),   "y": y(-10)},  { "x": x(100),  "y": y(-10)}, { "x": x(200),  "y": y(90)}];
+
+	var lineFunction = d3.svg.line()
+		.x(function(d) { return d.x; })
+		.y(function(d) { return d.y; })
+		.interpolate("linear")
+
+	svg.append("path")
+		.attr("d", lineFunction(lineData))
+		.attr("stroke", "blue")
+		.attr("stroke-width", 2)
+		.attr("fill", "none")
+		.attr("id", "optionLine");
+
+	svg.append("path")
+		.attr("d", lineFunction([{"x":x(1), "y": y(0)}, {"x": x(200), "y": y(0)}]))
+		.attr("stroke", "black")
+		.attr("stroke-width", 1.5)
+		.attr("fill", "none")
+		.style("stroke-dasharray", ("5, 5"));
+
+	svg.append("circle")
+		.attr("cx", function(d){
+			return x(100);
+		})
+		.attr("cy", function(d){
+			return y(optionValue(optionType, 100));
+		})
+		.attr("r", 5)
+		.attr("fill", "green")
+		.attr("id", "optionPoint");
+
+	svg.append("rect")
+		.attr("x", 160)
+		.attr("y", 0)
+		.attr("width", 100)
+		.attr("height", 15)
+		.attr("id", "callButton")
+		.on("click", function(d){
+			if (optionType == "put") {
+				optionType = "call"
+
+				d3.select("#optionPoint")
+					.transition()
+					.attr("cx", function(d){
+						return x(sprice);
+					})
+					.attr("cy", function(d){
+						return y(optionValue(optionType,sprice));
+					});
+
+				lineData = [ { "x": x(1),   "y": y(-10)},  { "x": x(100),  "y": y(-10)}, { "x": x(200),  "y": y(90)}];
+				d3.select("#optionLine")
+					.transition()
+					.attr("d", lineFunction(lineData));
+
+				d3.select("#stockPrice").text(sprice);
+				d3.select("#stockPriceLever").property("value", sprice);
+				d3.select("#payoff").text(optionValue(optionType,sprice));
+				d3.select("#buttonText").text("Switch to Put");
+			}
+			else {
+
+				optionType = "put"
+				d3.select("#optionPoint")
+					.transition()
+					.attr("cx", function(d){
+						return x(sprice);
+					})
+					.attr("cy", function(d){
+						return y(optionValue(optionType,sprice));
+					});
+				
+				lineData = [ { "x": x(1),   "y": y(89)},  { "x": x(100),  "y": y(-10)}, { "x": x(200),  "y": y(-10)}];
+				d3.select("#optionLine")
+					.transition()
+					.attr("d", lineFunction(lineData));
+
+				d3.select("#stockPrice").text(sprice);
+				d3.select("#stockPriceLever").property("value", sprice);
+				d3.select("#payoff").text(optionValue(optionType,sprice));
+				d3.select("#buttonText").text("Switch to Call");
+			}
+		})
+		.attr("fill", colorCalla);
+
+	svg.append("text")
+		.attr("x", 175)
+		.attr("y", 12)
+		.text("Switch to Put")
+		.attr("id", "buttonText")
+		.on("click", function(d){			
+			if (optionType == "put") {
+				optionType = "call"
+
+				d3.select("#optionPoint")
+					.transition()
+					.attr("cx", function(d){
+						return x(sprice);
+					})
+					.attr("cy", function(d){
+						return y(optionValue(optionType,sprice));
+					});
+
+				lineData = [ { "x": x(1),   "y": y(-10)},  { "x": x(100),  "y": y(-10)}, { "x": x(200),  "y": y(90)}];
+				d3.select("#optionLine")
+					.transition()
+					.attr("d", lineFunction(lineData));
+
+				d3.select("#stockPrice").text(sprice);
+				d3.select("#stockPriceLever").property("value", sprice);
+				d3.select("#payoff").text(optionValue(optionType,sprice));
+				d3.select("#buttonText").text("Switch to Put");
+			}
+			else {
+				optionType = "put"
+				d3.select("#optionPoint")
+					.transition()
+					.attr("cx", function(d){
+						return x(sprice);
+					})
+					.attr("cy", function(d){
+						return y(optionValue(optionType,sprice));
+					});
+				
+				lineData = [ { "x": x(1),   "y": y(89)},  { "x": x(100),  "y": y(-10)}, { "x": x(200),  "y": y(-10)}];
+				d3.select("#optionLine")
+					.transition()
+					.attr("d", lineFunction(lineData));
+
+				d3.select("#stockPrice").text(sprice);
+				d3.select("#stockPriceLever").property("value", sprice);
+				d3.select("#payoff").text(optionValue(optionType,sprice));
+				d3.select("#buttonText").text("Switch to Call");
+			}
+		})				
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "12px")
+		.attr("fill", "black");
+
+	d3.select("#stockPriceLever")
+		.on("input", function(){
+			sprice = +this.value;
+			d3.select("#stockPrice").text(sprice);
+			d3.select("#stockPriceLever").property("value", sprice);
+			d3.select("#payoff").text(optionValue(optionType,sprice));
+
+			d3.select("#optionPoint")
+				.attr("cx", function(d){
+					return x(sprice);
+				})
+				.attr("cy", function(d){
+					return y(optionValue(optionType,sprice));
+				})
+		});
+</script>

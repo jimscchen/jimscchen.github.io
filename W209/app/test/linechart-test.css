@@ -1,0 +1,84 @@
+#title {
+    color: blue;
+}
+
+/* sizes for each line chart */
+#plot-1 {
+    height: 125px;
+    width: 200px;
+}
+#plot-2 {
+    margin-top: 15px;
+    height: 200px;
+    width: 400px;
+}
+#plot-3 {
+    margin-top: 15px;
+    height: 400px;
+    width: 600px;
+}
+#plot-4 {
+    margin-top: 15px;
+    height: 200px;
+    width: 400px;
+}
+#square-plot {
+    height: 200px;
+    width: 200px;
+}
+/* use a smaller font on the smallest plot */
+#square-plot * .axis > .tick > text {
+    font-size: xx-small;
+}
+#axis-animation-container {
+    height: 200px;
+    width: 400px;
+}
+#axis-animation {
+    height: 95%;
+    width: 95%;
+    float: right;
+}
+#axis-placement {
+    margin-top: 10px;
+    margin-left: 5px;
+    height: 150px;
+    width: 300px;
+}
+
+#x-at-y-eq-0 {
+    margin-top: 10px;
+}
+
+#axis-placement-x-at-y-eq-0 {
+    height: 250px;
+    width:  600px;
+}
+
+.abba {
+    clear: both;
+    height: 50px;
+    width: 150px;
+}
+.left {
+    float: left;
+    height: 100%;
+    width: 33%;
+    background-color: red;
+}
+.mid {
+    float: left;
+    height: 100%;
+    width: 33%;
+    background-color: green;
+}
+.right {
+    float: left;
+    height: 100%;
+    width: 33%;
+    background-color: blue;
+}
+/* use a smaller font on the smallest plot */
+#plot-1 * .axis > .tick > text {
+    font-size: xx-small;
+}

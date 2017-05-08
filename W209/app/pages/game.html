@@ -1,0 +1,98 @@
+<meta charset="utf8">
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap-theme.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="game.css">
+<div class="well container" id="content">
+    <div id="title" class="row">
+        <div class="col-md-12">
+        <span id="header">Portfolio Simulation</span>
+        <a type="button" id="helpbutton"" class="btn" href="#help" data-toggle="modal">Help</a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class='section' >
+                <h2>Market</h2>
+                <div id="market" class='table'></div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class='section'>
+                <h2>Portfolio</h2>
+                <div id="portfolio" class='table'></div>
+            </div>
+
+            <div class='section'>
+                <div class="plot-container" id="priceplot-container">
+		    <div class="axis-label y-axis-label">Stock Price ($)</div>
+		    <div id="priceplot" class='plot'></div>
+		    <div class="axis-label x-axis-label">Portfolio Value ($)</div>
+                </div>
+            </div>
+
+            <div class='section'>
+                <div id="volatility" class="sliders">
+                    <label for="volInput">Volatility:</label>
+                    <input id="volInput" type="range" min="1" max="100" value="10"/>
+                    <div id="label">10%</div>
+                </div>
+            </div>
+
+            <div class='section'>
+                <div id="expiration" class="sliders">
+                    <label for="expirInput">Years to expiry:</label>
+                    <input id="expirInput" type="range" min="0" max="2" step=".1" value="1"/>
+                    <div id="label">1</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="buy-dialog" class='dialog'>
+        <header>Quantity to buy:</header>
+        <input id='buy-quantity' type='number'>
+        <button onclick="closeBuy()">Cancel</button>
+        <button onclick="completeBuy()">OK</button>  
+    </div>
+
+    <div id="sell-dialog" class='dialog'>
+        <header>Quantity to sell:</header>
+        <input id='sell-quantity' type='number'>
+        <button onclick="closeSell()">Cancel</button>
+        <button onclick="completeSell()">OK</button>  
+    </div>
+
+    <div id="help" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1>About</h1>
+                </div>
+                <div class="modal-body">
+                    <p>This simulation lets you experiment with building a theoretical option portfolio, and examining how its value is expected to rise and fall as the underlying stock's price changes.</p>
+                    <p>The left hand table contains the "market" - a menu of available securities and their current prices. The top entry is the stock itself, which is currently trading at $50, and the rest are call and put options on that stock.</p>
+                    <p>The right hand table is your portfolio. As you buy and sell securities, they will be added to and removed from this table.</p>
+                    <p>Below the portfolio is a graph that shows your portfolio's theoretical value in relation to the stock price. The stock is currently trading at $50, and everything is being offered at fair market value. If the stock's price stays at $50, then all options will keep their current value, and you can expect to make $0 in profit. You should therefore always expect the chart to always show $0 profit when the share price is $50.</p>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" class="btn" data-dismiss="modal">Close</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="../lib/d3/d3.js"></script>
+    <script src="../lib/jetpack.js"></script>
+    <script src="../src/table.js"></script>
+    <script src="../src/linechart.js"></script>
+    <script src="../lib/greeks/black-scholes.js"></script>
+    <script src="../lib/greeks/greeks.js"></script>
+    <script src="../src/positionValuePlot.js"></script>
+    <script src="../lib/jquery.js"></script>
+    <script src="../lib/bootstrap/js/bootstrap.js"></script>
+    <script src="game.js"></script>
+</div>

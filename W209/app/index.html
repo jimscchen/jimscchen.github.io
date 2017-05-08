@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Introduction to Options Trading</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./lib/bootstrap/css/bootstrap.css">
+  <link rel="stylesheet" href="./css/style.css">
+  <script src="./lib/d3/d3.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <style>
+    /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
+    
+    .row.content {
+      height: 550px
+    }
+    /* Set gray background color and 100% height */
+    
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }
+    
+    img {
+      max-width: 100%;
+      max-height: 100%;
+      padding: 10px 5px; 
+    }
+    /* On small screens, set height to 'auto' for the grid */
+    
+    @media screen and (max-width: 767px) {
+      .row.content {
+        height: auto;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <script>
+	//load pages into content div depending on the input name
+	function load_content(link_arg) {		
+    // $("#content").load('pages/' + link_arg + '.html');
+		document.getElementById("content").innerHTML='<object type="text/html" data="pages/'+link_arg+'.html" style="width:100%; height: ' + window.innerHeight + 'px;"></object>';
+	}
+
+	$(function() {
+   		$("li").click(function() {
+		// remove classes from all
+		$("li").removeClass("active");
+		// add class to the one we clicked
+		$(this).addClass("active");
+		});
+	});
+
+</script>
+
+  <div class="container-fluid">
+    <div class="col-md-2 sidenav hidden-xs">
+      <img src="./pics/ischoollogo2.jpg" alt="logo" />
+      <ul class="nav nav-pills nav-stacked">
+        <li class="active" id="intro"><a href="#" onclick="load_content('intro')">Introduction</a></li>
+        <li><a href="#" onclick="load_content('option-defined')">Options Defined</a></li>
+        <li><a href="#" onclick="load_content('payoff')">Payoff</a></li>
+        <li><a href="#" onclick="load_content('valuation')">Valuation</a></li>
+        <li>Greeks
+          <ul>
+            <li><a href="#" onclick="load_content('delta')">Delta</a></li>
+            <li><a href="#" onclick="load_content('gamma')">Gamma</a></li>
+            <li><a href="#" onclick="load_content('vega')">Vega</a></li>
+            <li><a href="#" onclick="load_content('theta')">Theta</a></li>
+          </ul>
+        </li>
+        <li><a href="#" onclick="load_content('risk')">Risk Management</a></li>
+        <!--<li><a href="#" onclick="load_content('pnl')">PNL Diagram</a></li>-->
+        <li><a href="#" onclick="load_content('game')">Simulation</a></li>
+        <li><a class="dim" href="#" onclick="load_content('about')">About</a></li>
+      </ul><br>
+    </div>
+    <br>
+    <div class="col-md-10" id="content">
+      <div class="well"/>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+    load_content('intro');
+  </script>
+
+</body>
+</html>

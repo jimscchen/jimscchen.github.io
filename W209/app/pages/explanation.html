@@ -1,0 +1,247 @@
+
+<meta charset="utf-8">
+<script src="../lib/d3/d3.js"></script>
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<div class="well" id="content">
+	<h4>Let's take a look at how put/call options work (strike = $100)</h4>
+	<svg width="600" height="400" id="explain"></svg>
+	<br>	
+	<input type="range" min="10" max="200" id="stockPriceLever" value="100"
+		orient="horizontal" style="width: 500px; height: 20px;
+		-webkit-appearance: slider-horizontal;">
+	<label for="stockPrice" style="display: inline-block; width: 150px; text-align: top">
+	Stock Price = $<span id="stockPrice">0</span></label>
+	<label for="payoff" style="display: inline-block; width: 150px; text-align: top">
+	Payoff = $<span id="payoff">-10</span></label>
+</div>
+<script type="text/javascript">
+	var margin = {top: 10, right: 10, bottom: 10, left: 50},
+    width = 600 - margin.left - margin.right,
+    height = 400 - margin.top - margin.bottom;
+
+    var optionType = "call"
+	var colorCalla = d3.rgb(50, 100, 199);
+		colorCalld = d3.rgb(167, 200, 255);
+		colorPuta = d3.rgb(12, 120, 67);
+		colorPutd = d3.rgb(112, 255, 167);
+		
+	var svg = d3.select("#explain");
+	var sprice = 100;
+
+	x = d3.scale.linear().range([margin.left,width]);
+	y = d3.scale.linear().range([height, margin.top]);
+
+    x.domain([0, 250]);
+    y.domain([-50, 150]);
+
+	var optionValue = function(type, sprice) {
+		if (type==="call") return Math.max(sprice-110, -10);
+		return Math.max(-10, 90-sprice);
+	}
+
+    //initiate axis
+	var xAxis = d3.svg.axis().scale(x)
+		.orient("bottom").ticks(5);
+		yAxis = d3.svg.axis().scale(y)
+		.orient("left").ticks(5);
+
+
+    svg.append("g")
+        .attr("class", "x axis")
+        .attr("transform", "translate(0," + height + ")")
+        .attr("id", "xaxis")
+        .call(xAxis);
+
+	svg.append("g")
+		.attr("class", "y axis")
+        .attr("transform", "translate("+margin.left+",0)")
+		.attr("id", "yaxis")
+		.call(yAxis);
+
+
+	var lineData = [ { "x": x(1),   "y": y(-10)},  { "x": x(100),  "y": y(-10)}, { "x": x(250),  "y": y(140)}];
+
+	var lineFunction = d3.svg.line()
+		.x(function(d) { return d.x; })
+		.y(function(d) { return d.y; })
+		.interpolate("linear")
+
+	svg.append("path")
+		.attr("d", lineFunction(lineData))
+		.attr("stroke", "blue")
+		.attr("stroke-width", 2)
+		.attr("fill", "none")
+		.attr("id", "optionLine");
+
+	svg.append("path")
+		.attr("d", lineFunction([{"x":x(1), "y": y(0)}, {"x": x(250), "y": y(0)}]))
+		.attr("stroke", "black")
+		.attr("stroke-width", 1.5)
+		.attr("fill", "none")
+		.style("stroke-dasharray", ("5, 5"));
+
+	svg.append("circle")
+		.attr("cx", function(d){
+			return x(100);
+		})
+		.attr("cy", function(d){
+			return y(optionValue(optionType, 100));
+		})
+		.attr("r", 5)
+		.attr("fill", "green")
+		.attr("id", "optionPoint");
+
+	svg.append("rect")
+		.attr("x", 200)
+		.attr("y", 0)
+		.attr("width", 50)
+		.attr("height", 15)
+		.attr("id", "callButton")
+		.on("click", function(d){
+			d3.select("#putButton")
+				.attr("fill", colorPutd);
+			d3.select("#callButton")
+				.attr("fill", colorCalla);
+			optionType = "call"
+
+			d3.select("#optionPoint")
+				.transition()
+				.attr("cx", function(d){
+					return x(sprice);
+				})
+				.attr("cy", function(d){
+					return y(optionValue(optionType,sprice));
+				});
+
+			lineData = [ { "x": x(1),   "y": y(-10)},  { "x": x(100),  "y": y(-10)}, { "x": x(250),  "y": y(140)}];
+			d3.select("#optionLine")
+				.transition()
+				.attr("d", lineFunction(lineData));
+
+			d3.select("#stockPrice").text(sprice);
+			d3.select("#stockPriceLever").property("value", sprice);
+			d3.select("#payoff").text(optionValue(optionType,sprice));
+		})
+		.attr("fill", colorCalla);
+
+	svg.append("text")
+		.attr("x", 215)
+		.attr("y", 12)
+		.text("Call")
+		.on("click", function(d){
+			d3.select("#putButton")
+				.attr("fill", colorPutd);
+			d3.select("#callButton")
+				.attr("fill", colorCalla);
+			optionType = "call"
+
+			d3.select("#optionPoint")
+				.transition()
+				.attr("cx", function(d){
+					return x(sprice);
+				})
+				.attr("cy", function(d){
+					return y(optionValue(optionType,sprice));
+				});
+
+			lineData = [ { "x": x(1),   "y": y(-10)},  { "x": x(100),  "y": y(-10)}, { "x": x(250),  "y": y(140)}];
+			d3.select("#optionLine")
+				.transition()
+				.attr("d", lineFunction(lineData));
+
+			d3.select("#stockPrice").text(sprice);
+			d3.select("#stockPriceLever").property("value", sprice);
+			d3.select("#payoff").text(optionValue(optionType,sprice));
+		})				
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "10px")
+		.attr("fill", "black")
+		.attr("font-weight", "bold");
+
+	svg.append("rect")
+		.attr("x", 250)
+		.attr("y", 0)
+		.attr("width", 50)
+		.attr("height", 15)
+		.attr("id", "putButton")
+		.on("click", function(d){
+			d3.select("#callButton")
+				.attr("fill", colorCalld);
+			d3.select("#putButton")
+				.attr("fill",colorPuta);
+			optionType = "put"
+
+			d3.select("#optionPoint")
+				.transition()
+				.attr("cx", function(d){
+					return x(sprice);
+				})
+				.attr("cy", function(d){
+					return y(optionValue(optionType,sprice));
+				});
+
+			lineData = [ { "x": x(1),   "y": y(89)},  { "x": x(100),  "y": y(-10)}, { "x": x(250),  "y": y(-10)}];
+
+			d3.select("#optionLine")
+				.transition()
+				.attr("d", lineFunction(lineData));
+
+			d3.select("#stockPrice").text(sprice);
+			d3.select("#stockPriceLever").property("value", sprice);
+			d3.select("#payoff").text(optionValue(optionType,sprice));
+
+		})
+		.attr("fill", colorPutd);
+
+	svg.append("text")
+		.attr("x", 265)
+		.attr("y", 12)
+		.text("Put")
+		.on("click", function(d){
+			d3.select("#callButton")
+				.attr("fill", colorCalld);
+			d3.select("#putButton")
+				.attr("fill",colorPuta);
+			optionType = "put"
+
+			d3.select("#optionPoint")
+				.transition()
+				.attr("cx", function(d){
+					return x(sprice);
+				})
+				.attr("cy", function(d){
+					return y(optionValue(optionType,sprice));
+				});
+
+			lineData = [ { "x": x(1),   "y": y(89)},  { "x": x(100),  "y": y(-10)}, { "x": x(250),  "y": y(-10)}];
+
+			d3.select("#optionLine")
+				.transition()
+				.attr("d", lineFunction(lineData));
+
+			d3.select("#stockPrice").text(sprice);
+			d3.select("#stockPriceLever").property("value", sprice);
+			d3.select("#payoff").text(optionValue(optionType,sprice));
+		})				
+		.attr("font-family", "sans-serif")
+		.attr("font-size", "10px")
+		.attr("fill", "black")
+		.attr("font-weight", "bold");
+
+	d3.select("#stockPriceLever")
+		.on("input", function(){
+			sprice = +this.value;
+			d3.select("#stockPrice").text(sprice);
+			d3.select("#stockPriceLever").property("value", sprice);
+			d3.select("#payoff").text(optionValue(optionType,sprice));
+
+			d3.select("#optionPoint")
+				.attr("cx", function(d){
+					return x(sprice);
+				})
+				.attr("cy", function(d){
+					return y(optionValue(optionType,sprice));
+				})
+		});
+</script>

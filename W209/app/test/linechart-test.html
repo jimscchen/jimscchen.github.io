@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf8">
+  <title>Test page for linechart control</title>
+  <link rel="stylesheet" type="text/css" href="../css/style.css">
+  <link rel="stylesheet" type="text/css" href="./linechart-test.css">
+  <script type="text/javascript" src="../lib/d3/d3.js" defer></script>
+  <script type="text/javascript" src="../lib/jetpack.js" defer></script>
+  <script type="text/javascript" src="../src/linechart.js" defer></script>
+  <script type="text/javascript" src="./linechart-test.js" defer></script>
+</head>
+<body>
+  <div id="title">
+    <h1>linechart module test</h1>
+  </div>
+  <div id="plot-1" class="plot"></div>
+  <div id="plot-2" class="plot"></div>
+  <div id="plot-3" class="plot"></div>
+  <div id="plot-4" class="plot"></div>
+  <div id="square-plot"></div>
+  <div id="axis-placement" class="plot"></div>
+  <div class="plot-container" id='x-at-y-eq-0'>
+    Testing X @ Y=0
+    <div class="axis-label y-axis-label">YYYYY</div>
+    <div id="axis-placement-x-at-y-eq-0" class="plot"></div>
+    <div class="axis-label x-axis-label">XXXXX</div>
+  </div>
+  <hr>
+  <div class="plot-container" id="axis-animation-container">
+    <div class="axis-label y-axis-label">Some number Y</div>
+    <div id="axis-animation" class="plot"></div>
+    <div class="axis-label x-axis-label">Random Walk X</div>
+  </div>
+  <hr>
+  <div class="abba">
+    <div class="left">l</div>
+    <div class="mid">m</div>
+    <div class="right">r</div>
+  </div>
+</body>
+</html>

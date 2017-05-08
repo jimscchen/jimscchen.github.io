@@ -1,0 +1,31 @@
+<meta charset="utf8">
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="greekplot.css">
+<div class="well" id="content">
+    <article>
+        <header>
+            <h1>Theta</h1>
+        </header>
+        <section>
+            The longer until an option expires, the more flexibility it gives you, and the more value it has. This characteristic is captured by theta (Θ), which is the rate at which the option loses value over time.
+        </section>
+        <figure>
+            <figcaption>Call option theta curve</figcaption>
+            <div id="call-theta" class="plot"/>
+        </figure>
+        <figure>
+            <figcaption>Put option theta curve</figcaption>
+            <div id="put-theta" class="plot"/>
+        </figure>
+    </article>
+    <script src="../lib/underscore.js"></script>
+    <script src="../lib/d3/d3.js"></script>
+    <script src="../lib/jetpack.js"></script>
+    <script src="../src/linechart.js"></script>
+    <script src="../lib/greeks/black-scholes.js"></script>
+    <script src="../lib/greeks/greeks.js"></script>
+    <script src="../src/greekplot.js"></script>
+    <script src="theta.js"></script>
+</div>
+

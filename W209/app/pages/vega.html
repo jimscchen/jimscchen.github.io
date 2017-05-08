@@ -1,0 +1,31 @@
+<meta charset="utf8">
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="greekplot.css">
+<div class="well" id="content">
+    <article>
+        <header>
+            <h2>Vega</h2>
+        </header>
+        <section>
+            The more uncertain the market is, the more valuable the option is. This is reflected in vega (not actually a Greek letter), which is the rate at which the option gains or loses value as the underlying asset becomes more or less volatile.
+        </section>
+	<figure>
+            <figcaption>Call option vega curve</figcaption>
+            <div id="call-vega" class="plot"/>
+        </figure>
+        <figure>
+            <figcaption>Put option vega curve</figcaption>
+            <div id="put-vega" class="plot"/>
+        </figure>
+    </article>
+    <script src="../lib/underscore.js"></script>
+    <script src="../lib/d3/d3.js"></script>
+    <script src="../lib/jetpack.js"></script>
+    <script src="../src/linechart.js"></script>
+    <script src="../lib/greeks/black-scholes.js"></script>
+    <script src="../lib/greeks/greeks.js"></script>
+    <script src="../src/greekplot.js"></script>
+    <script src="vega.js"></script>
+</div>
+

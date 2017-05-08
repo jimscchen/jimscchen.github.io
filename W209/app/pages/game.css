@@ -1,0 +1,81 @@
+table {
+	border-spacing: 0px;
+	border-collapse: collapse;
+}
+
+thead {
+	background-color: gainsboro;
+	border-width: 1px;
+}
+
+tbody tr:nth-child(odd) {
+	background-color: whitesmoke;
+}
+
+th, td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+a {
+  color: blue;
+}
+
+h1 {
+  margin-bottom: 0px;
+}
+
+#priceplot-container {
+    float: left;		
+    background-color: gainsboro;	
+    height: 300px;		
+    width: 400px;
+}
+#priceplot {
+    height: calc(100% - 1ex);
+    width: 95%;
+    float: right;
+}
+
+.section {
+  margin: 20px;
+  float: left;
+}
+
+.col-numeric {
+	text-align: center;
+}
+
+.dialog {
+  /*
+  float: right;
+  position: relative;
+  right: 50%;
+  */
+
+  border-width: 2px;
+  border-style: solid;
+  border-color: black;
+  border-radius: 5px;
+
+  background-color: white;
+
+  padding: 10px;
+
+  visibility: hidden;
+}
+
+.dialog input {
+  text-align: right;
+}
+
+#header {
+  font-size: 24;
+  font-weight: bold;
+}
+
+#helpbutton {
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}

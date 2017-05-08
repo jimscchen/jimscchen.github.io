@@ -1,0 +1,107 @@
+<meta charset="utf8">
+<title>Risk Management</title>
+<script src="../lib/underscore.js"></script>
+<script src="../lib/d3/d3.js"></script>
+<script src="../lib/jetpack.js"></script>
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<script type="text/javascript" src="../lib/greeks/black-scholes.js"></script>
+<script type="text/javascript" src="../lib/greeks/greeks.js"></script>
+<script type="text/javascript" src="../src/barchart.js"></script>
+<script type="text/javascript" src="../src/linechart.js"></script>
+<style>
+    
+    .axis path {
+        stroke: black;
+    }
+    
+    .axis text {
+        font-size: 11px;
+    }
+    
+    .wrapper {
+        text-align: center;
+        margin-bottom: 5ex;
+	margin-top: 2ex;
+    }
+    
+    section {
+	margin-top: 2ex;
+    }
+    
+    .button {
+        position: relative;
+    }
+    
+    p {
+        text-align: center;
+        line-height: 100px;
+    }
+    
+    .plot {
+        height: 250px;
+        width: 400px;
+        margin: 1ex auto;
+        background-color: #f5f5f5;
+    }
+</style>
+
+<div class="well" id="content">
+    <article>
+        <header>
+            <h1 align='center'>What is Risk Management?</h1>
+        </header>
+
+        <section>
+
+	    Consider the case below where you buy Apple stock at $140 a share, and the price jumps to $160 a share.
+	    However, you have good intel that the price will tank to $100 a share soon. There is a "risk" that
+	    you'll lose money when the price drops. You can offset this risk by buying puts at the $160 strike
+	    for $5, so that for every dollar you lose on stock, you gain a dollar from the options.
+
+	    <div class="wrapper">
+		<button class="button" id="CoverPut">Click here to hedge by buying puts</button>
+		    <div id="coveredPut" class="plot">
+		</div>
+	    </div>
+
+	</section>
+
+	<section>
+	    Say you have an option position that's appreciated $100,000 since you bought it. The position is protected
+	    against price changes, but sensitive to increases in volatility (i.e. short lots of vega). If you
+	    know volatility will skyrocket, and this would mean big losses, as we've simulated below. </dt>
+
+	    <div class="wrapper">
+		<button class="button" id="addStraddle">Click here to increase volatility</button>
+		<div id="straddle" class="plot"></div>
+	    </div>
+	</section>
+
+	<section>
+	    However, all options increase in value when volatility increases, so we can protect against this volatility
+	    risk by paying $5 for calls and puts near the current stock price -- this is where the volatility
+	    sensitivity is greatest for options.</dt>
+
+	    <div class="wrapper">
+		<button class="button" id="increaseVol">Click here to buy puts and then increase volatility</button>
+		<div id="straddleGain" class="plot"></div>
+	    </div>
+	</section>
+
+	<section>
+	    It's important to consider that options have different sensitivities to volatility and price change at
+	    every strike. This means that even if your position is balanced when stock is trading at one price,
+	    it will change when the price moves considerably.<br><br> Below is the amount of total volatility
+	    sensitivity we have at each strike when the stock is trading at $105.  Sensitivity to volatility is greatest for strikes near the stock price, meaning that our risk may flip if the stock starts trading around strikes where we're short options, such as below.
+
+	    <div class="wrapper">
+		<button class="button" id="SpotChange">Change Spot Price to $130</button>
+		<p id="blah" align="center"> </p>
+	    </div>
+        </section>
+    </article>
+</div>
+<script type="text/javascript" src="../test/barchart_test.js"></script>
+<script type="text/javascript" src="../src/covered_put.js"></script>
+<script type="text/javascript" src="../src/straddle.js"></script>

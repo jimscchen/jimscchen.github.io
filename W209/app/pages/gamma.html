@@ -1,0 +1,41 @@
+<meta charset="utf8">
+<link rel="stylesheet" href="../lib/bootstrap/css/bootstrap.css">
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" type="text/css" href="greekplot.css">
+<div class="well" id="content">
+    <article>
+        <header>
+            <h2>Gamma</h2>
+        </header>
+        <section>
+            Delta's not constant - its value also changes as the underlying's price changes. Gamma (Γ) describes the rate at which it changes. It's always a positive number and typically is very small. Its value also changes, reaching its maximum when the option is at the money, and tapering off to zero in both directions.
+        </section>
+        <figure>
+            <figcaption>Call option delta curve</figcaption>
+            <div id="call-delta" class="plot"/>
+        </figure>
+        <br>
+        <figure>
+            <figcaption>Call option gamma curve</figcaption>
+            <div id="call-gamma" class="plot"/>
+        </figure>
+        <br>
+        <figure>
+            <figcaption>Put option delta curve</figcaption>
+            <div id="put-delta" class="plot"/>
+        </figure>
+        <br>
+        <figure>
+            <figcaption>Put option gamma curve</figcaption>
+            <div id="put-gamma" class="plot"/>
+        </figure>
+    </article>
+    <script src="../lib/underscore.js"></script>
+    <script src="../lib/d3/d3.js"></script>
+    <script src="../lib/jetpack.js"></script>
+    <script src="../src/linechart.js"></script>
+    <script src="../lib/greeks/black-scholes.js"></script>
+    <script src="../lib/greeks/greeks.js"></script>
+    <script src="../src/greekplot.js"></script>
+    <script src="gamma.js"></script>
+</div>

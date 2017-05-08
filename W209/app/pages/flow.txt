@@ -1,0 +1,18 @@
+Approximate ordering of content (break things into multiple pages as seems appropriate)
+
+1. Options introduction
+    1a. intro.html  (basic motivation)
+    1b. option-defined.html (more complete definition of options)
+2. Usefulness of options
+    (holding off on this for now since it's not strictly critical - SU 07-22)
+3. Call/put/payoff explanation
+    3a. payoff.html
+4. Valuation
+    4a. valuation.html
+5. The greeks
+    5a. delta.html  (current)
+    5b. gamma.html
+    5c. vega.html
+    5c. theta.html
+6. Risk management
+7. pnl diagram
