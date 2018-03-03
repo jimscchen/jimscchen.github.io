@@ -9,10 +9,29 @@
   <link rel="stylesheet" href="./css/bootstrap.min.css">
   <link rel="stylesheet" href="./css/style.css">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  
+
 </head>
 
 <body>
 
+<script>
+//load pages into content div depending on the input name
+function load_content(link_arg) {   
+  document.getElementById("content").innerHTML='<object type="text/html" data="sub/'+link_arg+'.html" style="width:100%; height:100% ;"></object>';
+}
+
+$(function() {
+    $("li").click(function() {
+  // remove classes from all
+  $("li").removeClass("active");
+  // add class to the one we clicked
+  $(this).addClass("active");
+  });
+});
+
+</script>
 
 <div class ="navbar-main">
   <div class="container">
@@ -23,19 +42,19 @@
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
       <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-              <a class="nav-link" href="#">Projects</a>
+              <a class="nav-link" href="#" onclick="load_content('projects')">Projects</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Reading</a>
+              <a class="nav-link" href="#" onclick="load_content('reading')">Reading</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Skills</a>
+              <a class="nav-link" href="#" onclick="load_content('skills')">Skills</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">Blog</a>
+              <a class="nav-link" href="#" onclick="load_content('blog')">Blog</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#">About</a>
+              <a class="nav-link" href="#" onclick="load_content('about')">About</a>
           </li>
       </ul><br>
 
@@ -44,10 +63,11 @@
   </div>
 </div>
 
-<div class ="content-main">
+<div class ="content-main" id="content">
   <div class="container">
     hello
   </div>
 </div>
+
 </body>
 </html>
