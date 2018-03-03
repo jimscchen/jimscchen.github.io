@@ -19,7 +19,7 @@
 <script>
 //load pages into content div depending on the input name
 function load_content(link_arg) {   
-  document.getElementById("content").innerHTML='<object type="text/html" data="sub/'+link_arg+'.html" style="width:100%; height:100% ;"></object>';
+  document.getElementById("content").innerHTML='<object type="text/html" data="sub/'+link_arg+'/index.html" style="width:100%; height:100% ;"></object>';
 }
 
 $(function() {
@@ -65,7 +65,9 @@ $(function() {
 
 <div class ="content-main" id="content">
   <div class="container">
-    hello
+  <script type="text/javascript">
+    load_content('projects');
+  </script>
   </div>
 </div>
 
