@@ -1,0 +1,12 @@
+.navbar-main {
+  background-color: #f0f0f0;
+
+}
+
+.content-main{
+  position: absolute;
+  left:5%;
+  background-color: #dfefff;
+  width: 90%;
+  height: 90%;
+}
