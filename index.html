@@ -43,19 +43,19 @@ $(function() {
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
       <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-              <a class="nav-link" href="#" onclick="load_content('projects')">Projects</a>
+              <a class="nav-link" href="#projects" onclick="load_content('projects')">Projects</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#" onclick="load_content('reading')">Reading</a>
+              <a class="nav-link" href="#reading" onclick="load_content('reading')">Reading</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#" onclick="load_content('skills')">Skills</a>
+              <a class="nav-link" href="#skills" onclick="load_content('skills')">Skills</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#" onclick="load_content('tools')">Tools</a>
+              <a class="nav-link" href="#tools" onclick="load_content('tools')">Tools</a>
           </li>
           <li class="nav-item">
-              <a class="nav-link" href="#" onclick="load_content('about')">About</a>
+              <a class="nav-link" href="#about" onclick="load_content('about')">About</a>
           </li>
       </ul><br>
 
@@ -67,7 +67,13 @@ $(function() {
 <div class ="content-main" id="content">
   <div class="container">
   <script type="text/javascript">
-    load_content('projects');
+    var hash = window.location.hash.slice(1);
+    //alert(hash)
+
+    if (hash)
+      load_content(hash);
+    else
+      load_content('projects');
   </script>
   </div>
 </div>
