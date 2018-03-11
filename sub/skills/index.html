@@ -5,8 +5,7 @@
 
 <div class ="content-sub" id="skills">
   <div class="container">
-	<style> /* set the CSS */
-
+	<style> 
 	.skillText{
 		fill: #6B6B6B;
 		font-family: 'Courgette', sans-serif;
@@ -27,8 +26,6 @@
 	</style>
 
   	<script>
-
-    console.log(d3.select("#skills").node().getBoundingClientRect())
     var w = d3.select("#skills").node().getBoundingClientRect().width*0.9
     var h = d3.select("#skills").node().getBoundingClientRect().height*0.9
     var dim = Math.min(w, h)
@@ -43,12 +40,14 @@
 	  	var numSides = data.length;
 	  	var levels = 5;
 	  	var radius = 0.6*dim/2;
-	  	console.log(radius)
-	  	var increment = Math.max(radius/10, 1);
+	  	var increment = Math.max(radius/8, 1);
 	  	var cords = [];
 	  	var xMid = w/2;
 	  	var yMid = h/2;
 
+	    var valueline= d3.line()
+		    .x(function(d) { return d.x; })
+		    .y(function(d) { return d.y; });
 
 		data.forEach(function(d, i) {
 			d.level = parseInt(d.level);
@@ -58,9 +57,6 @@
 			d.notes = d.notes
 		});
 
-		var flatline = d3.line()
-		    .x(function(d) { return d.x; })
-		    .y(function(d) { return d.y; });
 
 		var div = d3.select("body").append("div")	
 		    .attr("class", "tooltip")				
@@ -76,25 +72,17 @@
 		  	cords.push(tmpCords);
 		}
 
+		//draw the grids
 	    for (i=0; i<levels; i++){
-
 			svg.append("path")
 				.data([cords[i]])
 				.attr("stroke", "steelblue")
 				.attr("class", "line")
-				.attr("d", function(d, r){return flatline(d)+"Z"})
+				.attr("d", function(d, r){return valueline(d)+"Z"})
 				.attr("fill", "none")
 				.attr("stroke-width", 2);
 		};
 
-
-	    var valueline= d3.line()
-		    .x(function(d) { return d.x; })
-		    .y(function(d) { return d.y; });
-
-	    var radline= d3.radialLine()
-		    .angle(function(d, i) { return 2*Math.PI*(i/numSides); })
-		    .radius(function(d) { return 80; });
 
 
 		svg.append("path")
@@ -134,15 +122,13 @@
 			.data(data)
 			.enter().append("text")
 			.attr("class", "skillText")
-			.attr("x", function(d, i){return Math.sin(2*Math.PI*(i/numSides))*(radius+increment*3)+xMid;}) 
-			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+10;})
+			.attr("x", function(d, i){return Math.sin(2*Math.PI*(i/numSides))*(radius+increment*2.7)+xMid;}) 
+			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+0.7*Math.max(w/70, 6);})
 			.attr("font-size", Math.max(parseInt(w/70), 6)+"px") 
 			.text(function(d){return d.skill;});
 
 		sktext.style("text-anchor", "middle")
 	})
-
-
 
 	</script>
   </div>
