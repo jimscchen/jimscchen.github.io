@@ -1,11 +1,11 @@
 skill,level,notes
-Deep Learning,3,Deep<br> Learning
-Math/Statistics,5,Math/Statistics
-Business Acumen,5,Business Acumen
-Leadership,4,Leadership
-Reinforcement Learning,1,Reinforcement Learning
-Data Visualization,2,Data Visualization
-General ML,5,General ML
+Deep Learning,3,&nbsp;&nbsp;Worked with CNN and RNN-LSTM<br>&nbsp;&nbsp;&nbsp;&nbsp;on personal projects<br>&nbsp;&nbsp;Follow new architectures and applications<br>&nbsp;&nbsp;Limited experience with GANs
+Math/Statistics,5,&nbsp;&nbsp;Good grasp of crucial math/stats concepts<br>&nbsp;&nbsp;&nbsp;&nbsp;in data science<br>&nbsp;&nbsp;E.g. linear algebra/calculus
+Business Acumen,5,&nbsp;&nbsp;Good with framing DS questions and ensuring<br>&nbsp;&nbsp;&nbsp;&nbsp;projects lead to meaningful business outcomes<br>&nbsp;&nbsp;Comforable working in many/most industries
+Leadership,4,&nbsp;&nbsp;Experience in leading cross-function teams<br>&nbsp;&nbsp;Have not directly supervised employees
+Reinforcement Learning,1,&nbsp;&nbsp;Understand high level concepts<br>&nbsp;&nbsp;No practical experience in RL
+Data Visualization,3,&nbsp;&nbsp;Familiar with scientific plotting libraries like<br>&nbsp;&nbsp;&nbsp;&nbsp;ggplot/matplotlib<br>&nbsp;&nbsp;Comfortable with Tableau-like tools<br>&nbsp;&nbsp;Limited experience with frontend design and<br>&nbsp;&nbsp;&nbsp;&nbsp;libraries like shiny/plotly
+Non-DL ML,5,&nbsp;&nbsp;Work with sklearn on a daily basis<br>&nbsp;&nbsp;Comfortable with various supervised<br>&nbsp;&nbsp;&nbsp;&nbsp;and unsupervised tasks
 Software Engineering,4,Software Engineering
 Experimentation,5,Experimentation
-Data Storage/Retrieval,3,Data Storage/Retrieval
+Data Storage/Retrieval,3,&nbsp;&nbsp;Familiar with RDBM and Hadoop<br>&nbsp;&nbsp;Worked with graph DB(Neo4j)<br>&nbsp;&nbsp;Understand the concepts but limited practical<br>&nbsp;&nbsp;&nbsp;&nbsp;experience with other noSQL DB

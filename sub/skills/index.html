@@ -16,7 +16,7 @@
 	}
 	div.tooltip {	
 	    position: absolute;			
-	    text-align: center;						
+	    text-align: left;						
 	    font: 12px sans-serif;		
 	    background: lightsteelblue;	
 	    border: 0px;		
@@ -109,8 +109,8 @@
 	            div	.html(d.notes)		
 	                .style("left", (d3.event.pageX) + "px")		
 	                .style("top", (d3.event.pageY - 28) + "px")
-	                .style("width", "200px")
-	                .style("height", "100px");	
+	                .style("width", "270px")
+	                .style("height", "70px");	
 	            })					
 	        	.on("mouseout", function(d) {		
 		            div.transition()		
@@ -124,9 +124,9 @@
 			.attr("class", "skillText")
 			.attr("x", function(d, i){return Math.sin(2*Math.PI*(i/numSides))*(radius+increment*2.7)+xMid;}) 
 			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+0.7*Math.max(w/70, 6);})
-			.attr("font-size", Math.max(parseInt(w/70), 6)+"px") 
+			.attr("font-size", Math.max(parseInt(dim/60), 6)+"px") 
 			.text(function(d){return d.skill;});
-
+		console.log(Math.max(parseInt(dim/60), 6));
 		sktext.style("text-anchor", "middle")
 	})
 
