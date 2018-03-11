@@ -84,7 +84,6 @@
 		};
 
 
-
 		svg.append("path")
 			.data([data])
 			.attr("stroke", "green")
@@ -126,7 +125,6 @@
 			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+0.7*Math.max(w/70, 6);})
 			.attr("font-size", Math.max(parseInt(dim/60), 6)+"px") 
 			.text(function(d){return d.skill;});
-		console.log(Math.max(parseInt(dim/60), 6));
 		sktext.style("text-anchor", "middle")
 	})
 
