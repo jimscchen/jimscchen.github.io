@@ -3,20 +3,17 @@
 <link rel="stylesheet" href="../../css/style.css">
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
-<div class ="content-sub">
+<div class ="content-sub" id="skills">
   <div class="container">
 	<style> /* set the CSS */
 
 	.skillText{
 		fill: #6B6B6B;
-		font-size: 16px;
 		font-family: 'Courgette', sans-serif;
 	}
 	svg {
 		padding: 0;
 		margin: 3%;
-		width: 960;
-		height: 720;
 	}
 	div.tooltip {	
 	    position: absolute;			
@@ -31,10 +28,14 @@
 
   	<script>
 
+    console.log(d3.select("#skills").node().getBoundingClientRect())
+    var w = d3.select("#skills").node().getBoundingClientRect().width*0.9
+    var h = d3.select("#skills").node().getBoundingClientRect().height*0.9
+    var dim = Math.min(w, h)
 
-
-    var svg = d3.select(".container").append("svg")
-
+    var svg = d3.select("#skills").append("svg")
+    	.attr("height", h)
+    	.attr("width", w)
 
 	d3.csv("data.csv", function(error, data){
 		if(error) throw error;
@@ -42,10 +43,10 @@
 	  	var numSides = data.length;
 	  	var levels = 5;
 	  	var increment = 30;
-	  	var radius = 300;
+	  	var radius = 0.6*dim/2;
 	  	var cords = [];
-	  	var xMid = 480;
-	  	var yMid = 350;
+	  	var xMid = w/2;
+	  	var yMid = h/2;
 
 
 		data.forEach(function(d, i) {
@@ -132,9 +133,11 @@
 			.data(data)
 			.enter().append("text")
 			.attr("class", "skillText")
-			.attr("x", function(d, i){return Math.sin(2*Math.PI*(i/numSides))*(radius+increment*3)+xMid;}) //Move the text from the start angle of the arc
-			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+10;}) //Move the text down
-			.text(function(d){return d.skill;});	
+			.attr("x", function(d, i){return Math.sin(2*Math.PI*(i/numSides))*(radius+increment*3)+xMid;}) 
+			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+10;})
+			.attr("font-size", Math.max(parseInt(w/70), 6)+"px") 
+			.text(function(d){return d.skill;});
+		console.log(parseInt(w/70)	)
 
 		sktext.style("text-anchor", "middle")
 	})
