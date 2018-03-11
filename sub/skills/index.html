@@ -42,8 +42,9 @@
 
 	  	var numSides = data.length;
 	  	var levels = 5;
-	  	var increment = 30;
 	  	var radius = 0.6*dim/2;
+	  	console.log(radius)
+	  	var increment = Math.max(radius/10, 1);
 	  	var cords = [];
 	  	var xMid = w/2;
 	  	var yMid = h/2;
@@ -137,7 +138,6 @@
 			.attr("y", function(d, i){return Math.cos(2*Math.PI*(i/numSides))*(radius+increment)+yMid+10;})
 			.attr("font-size", Math.max(parseInt(w/70), 6)+"px") 
 			.text(function(d){return d.skill;});
-		console.log(parseInt(w/70)	)
 
 		sktext.style("text-anchor", "middle")
 	})
