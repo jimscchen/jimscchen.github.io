@@ -26,12 +26,12 @@
 		  transform: translate(-50%, -50%);
 		}
   	</style>
-    Currently reading<br><br>
+    <h5>Currently reading</h5><br>
 	<div class="img-wrap"><img src="img/c1.jpg" title="The Iliad of Homer"></div>
 	<div class="img-wrap"><img src="img/c2.jpg" title="Computer Age Statistical Inference" height="300px"></div>
 
     <hr>
-    Some previous reads<br><br>
+    <h5>Some previous reads</h5><br>
   	<script>
 
     var w = d3.select("#readings").node().getBoundingClientRect().width*0.9
@@ -77,8 +77,8 @@
 			.filter(function(d, i){return sarray.indexOf(i) != -1})
 			.attr("xlink:href", function(d, i){return "img/"+d.index+".jpg"})
 			.attr("x", function(d, i){return (i%3+0.3)*w/3})
-			.attr("y", function(d, i){return parseInt(i/3)*h/3})
-			.attr("height", 0.9*dim/3)
+			.attr("y", function(d, i){return parseInt(i/3)*1.5*h/3})
+			.attr("height", 0.9*h/2.5)
 			.append("svg:title")
 			.text(function(d){return d.name})
     })
