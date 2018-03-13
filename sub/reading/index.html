@@ -36,6 +36,9 @@
 
     var w = d3.select("#readings").node().getBoundingClientRect().width*0.9
     var h = d3.select("#readings").node().getBoundingClientRect().height*0.9
+    if (h == 0){
+    	h = d3.select(".content-sub").node().getBoundingClientRect().height*0.9
+    }
     var dim = Math.min(w, h)
 
 	function getRandomSubarray(arr, size) {
