@@ -3,28 +3,56 @@
 <link rel="stylesheet" href="../../css/style.css">
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
-<div class ="content-sub" id="readings">
-  <div class="container">
-    In Progress...<br>
+<div class ="content-sub">
+  <div class="container" id="readings">
+
+  	<style>
+  		.img-wrap {
+		  width: 30%;
+		  height: 30%;
+		  left:5%;
+		  position: relative;
+		  display: inline-block;
+		  overflow: hidden;
+		  margin: 0;
+		}
+
+		div > img {
+		  display: block;
+		  position: absolute;
+		  top: 50%;
+		  left: 50%;
+		  height:100%;
+		  transform: translate(-50%, -50%);
+		}
+  	</style>
+    Currently reading<br><br>
+	<div class="img-wrap"><img src="img/c1.jpg" title="The Iliad of Homer"></div>
+	<div class="img-wrap"><img src="img/c2.jpg" title="Computer Age Statistical Inference" height="300px"></div>
 
     <hr>
-    Some previous reads
-      	<script>
+    Some previous reads<br><br>
+  	<script>
 
     var w = d3.select("#readings").node().getBoundingClientRect().width*0.9
-    var h = d3.select("#readings").node().getBoundingClientRect().height*0.9
+    var h = Math.max(d3.select("#readings").node().getBoundingClientRect().height*0.9, w*2/3)
     var dim = Math.min(w, h)
+
+	function getRandomSubarray(arr, size) {
+	    var shuffled = arr.slice(0), i = arr.length, temp, index;
+	    while (i--) {
+	        index = Math.floor((i + 1) * Math.random());
+	        temp = shuffled[index];
+	        shuffled[index] = shuffled[i];
+	        shuffled[i] = temp;
+	    }
+	    return shuffled.slice(0, size);
+	}
 
     var svg = d3.select("#readings").append("svg")
     	.attr("height", h)
     	.attr("width", w)
 
-    svg.append("svg:image")
-    	.attr("xlink:href", "img/1.jpg")
-    	.attr("x", dim/2)
-    	.attr("y", dim/2)
-    	.append("svg:title")
-    	.text("hello")
 
     d3.csv("data.csv", function(error, data){
     	if(error) throw error;
@@ -33,14 +61,26 @@
 			d.x = d.name.length
 		});
 
-		c = svg.selectAll("circle")
+		rarray = []
+		for(i=0;i<data.length;i++){
+			rarray.push(i);
+		}
+
+		sarray = getRandomSubarray(rarray, 6)
+
+		c = svg.selectAll("imgs")
 			.data(data)
-			.enter().append("circle")
-			.filter(function(d){return d.x>15})
-		console.log(c)
+			.enter().append("svg:image")
+			.filter(function(d, i){return sarray.indexOf(i) != -1})
+			.attr("xlink:href", function(d, i){return "img/"+d.index+".jpg"})
+			.attr("x", function(d, i){return (i%3+0.3)*w/3})
+			.attr("y", function(d, i){return parseInt(i/3)*h/3})
+			.attr("height", 0.9*dim/3)
+			.append("svg:title")
+			.text(function(d){return d.name})
     })
     	
 
-		</script>
+	</script>
   </div>
 </div>  
