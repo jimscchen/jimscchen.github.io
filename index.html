@@ -20,7 +20,7 @@
 <script>
 //load pages into content div depending on the input name
 function load_content(link_arg) {   
-  document.getElementById("content").innerHTML='<object type="text/html" data="sub/'+link_arg+'/index.html" style="width:100%; height:100% ;"></object>';
+  document.getElementById("content-sub").innerHTML='<object type="text/html" data="sub/'+link_arg+'/index.html" style="width:100%; height:100% ;"></object>';
 }
 
 $(function() {
@@ -64,7 +64,7 @@ $(function() {
   </div>
 </div>
 
-<div class ="content-main" id="content" style:"overflow:hidden";>
+<div class ="content-main" id="content-sub" style:"overflow:hidden";>
   <div class="container">
   <script type="text/javascript">
     var hash = window.location.hash.slice(1);

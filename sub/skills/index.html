@@ -3,8 +3,8 @@
 <link rel="stylesheet" href="../../css/style.css">
 <script src="https://d3js.org/d3.v4.min.js"></script>
 
-<div class ="content-sub" id="skills">
-  <div class="container">
+<div class ="content-sub">
+  <div class="container" id="skills">
 	<style> 
 	.skillText{
 		fill: #6B6B6B;
@@ -27,7 +27,7 @@
 
   	<script>
     var w = d3.select("#skills").node().getBoundingClientRect().width*0.9
-    var h = Math.max(d3.select("#skills").node().getBoundingClientRect().height*0.9, w*2/3)
+    var h = Math.max(d3.select("#skills").node().getBoundingClientRect().height*0.9)
     var dim = Math.min(w, h)
 
     var svg = d3.select("#skills").append("svg")
@@ -43,7 +43,7 @@
 	  	var increment = Math.max(radius/8, 1);
 	  	var cords = [];
 	  	var xMid = w/2;
-	  	var yMid = h/2;
+	  	var yMid = h/3;
 
 	    var valueline= d3.line()
 		    .x(function(d) { return d.x; })
