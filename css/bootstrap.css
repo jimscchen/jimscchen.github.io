@@ -763,9 +763,21 @@ pre code {
   padding-left: 15px;
 }
 
+@media (min-width: 376px) {
+  html {
+    font-size:8px;
+  }
+  h3{
+    font-size: .43em;
+  }
+}
+
 @media (min-width: 576px) {
   html {
     font-size:8px;
+  }
+  h3{
+    font-size: .43em;
   }
 }
 
