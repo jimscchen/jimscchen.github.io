@@ -763,7 +763,7 @@ pre code {
   padding-left: 15px;
 }
 
-@media (min-width: 376px) {
+@media (max-width: 575px) {
   html {
     font-size:8px;
   }
