@@ -30,7 +30,7 @@
     font-size:8px;
   }
   h5{
-    font-size: .43em;
+    font-size: .53em;
   }
 }
 
@@ -38,16 +38,25 @@
   html {
     font-size:10px;
   }
+  h5{
+    font-size: .63em;
+  }
 }
 
 @media (min-width: 992px) {
   html {
     font-size:12px;
   }
+  h5{
+    font-size: .73em;
+  }
 }
 
 @media (min-width: 1200px) {
   html {
     font-size:14px;
+  }
+  h5{
+    font-size: .83em;
   }
 }
