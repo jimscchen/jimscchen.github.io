@@ -19,24 +19,6 @@
   overflow-y: scroll;
 }
 
-.img-wrap {
-width: 30%;
-height: 30%;
-left:5%;
-position: relative;
-display: inline-block;
-overflow: hidden;
-margin: 0;
-}
-
-div > img {
-display: block;
-position: absolute;
-top: 50%;
-left: 50%;
-height:100%;
-transform: translate(-50%, -50%);
-}
 
 @media (max-width: 575px) {
   html {
